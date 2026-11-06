@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,105 +5,297 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AVCOE Deploy</title>
 <style>
-*{box-sizing:border-box}
-body{
- margin:0;background:#090d18;color:#fff;
- font-family:Arial,sans-serif;
-}
-header{
- padding:22px 7%;display:flex;
- justify-content:space-between;align-items:center;
- border-bottom:1px solid #242b3b;
-}
-.logo{font-size:23px;font-weight:bold}
-.logo span{color:#7c83ff}
-main{max-width:1000px;margin:75px auto;padding:20px}
-h1{font-size:46px;margin-bottom:12px}
-p{color:#9ba6bb;line-height:1.6}
-.hero{text-align:center}
-.hero p{font-size:17px}
-.card{
- margin:40px auto;padding:35px;
- max-width:650px;background:#111827;
- border:1px solid #293348;border-radius:16px;
-}
-input{
- width:100%;padding:15px;margin:12px 0;
- background:#090d18;color:white;
- border:1px solid #39445b;border-radius:8px;
-}
-button{
- padding:14px 22px;border:0;border-radius:8px;
- background:#777cff;color:white;
- font-weight:bold;cursor:pointer;
-}
-button:disabled{opacity:.6;cursor:not-allowed}
-.features{
- display:grid;grid-template-columns:repeat(3,1fr);
- gap:15px;margin-top:45px;
-}
-.feature{
- padding:22px;background:#111827;
- border:1px solid #293348;border-radius:12px;
-}
-footer{text-align:center;padding:30px;color:#78849a}
-@media(max-width:650px){
- h1{font-size:34px}
- .features{grid-template-columns:1fr}
-}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    background: #0b0d12;
+    color: #e8eaf0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 24px 16px;
+  }
+  .wrap { width: 100%; max-width: 520px; }
+  header { text-align: center; margin-bottom: 24px; }
+  header h1 { font-size: 28px; letter-spacing: 0.5px; }
+  header h1 span { color: #5b8cff; }
+  header p { color: #8b93a7; margin-top: 6px; font-size: 14px; }
+  .card {
+    background: #151922;
+    border: 1px solid #242a38;
+    border-radius: 14px;
+    padding: 20px;
+  }
+  label.lbl { display: block; font-size: 13px; color: #8b93a7; margin-bottom: 6px; }
+  input[type="text"] {
+    width: 100%;
+    padding: 12px 14px;
+    background: #0b0d12;
+    border: 1px solid #242a38;
+    border-radius: 10px;
+    color: #e8eaf0;
+    font-size: 16px;
+    outline: none;
+  }
+  input[type="text"]:focus { border-color: #5b8cff; }
+  .hint { font-size: 12px; color: #8b93a7; margin-top: 6px; }
+  .slug { color: #5b8cff; word-break: break-all; }
+  .drop {
+    display: block;
+    margin-top: 18px;
+    padding: 26px 14px;
+    text-align: center;
+    border: 2px dashed #2f3850;
+    border-radius: 12px;
+    cursor: pointer;
+    color: #8b93a7;
+    font-size: 14px;
+  }
+  .drop:hover { border-color: #5b8cff; }
+  .drop strong { color: #e8eaf0; display: block; margin-bottom: 4px; font-size: 15px; }
+  .drop input { display: none; }
+  .fileinfo { margin-top: 10px; font-size: 13px; color: #b6bdd0; word-break: break-all; }
+  button#go {
+    width: 100%;
+    margin-top: 18px;
+    padding: 14px;
+    background: #5b8cff;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button#go:disabled { background: #2f3850; color: #7b84a0; cursor: not-allowed; }
+  .box {
+    display: none;
+    margin-top: 16px;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+    word-break: break-word;
+  }
+  .box.show { display: block; }
+  .status { background: #1a2133; border: 1px solid #2f3a58; color: #b6c4ee; }
+  .error { background: #2a1519; border: 1px solid #5a2630; color: #ffb3bd; }
+  .ok { background: #12261c; border: 1px solid #1f5a3a; color: #a8f0c6; }
+  .ok a { color: #7dffb0; font-weight: 600; word-break: break-all; }
+  .ok .row { margin-top: 10px; display: flex; gap: 8px; }
+  .ok button {
+    padding: 8px 12px;
+    background: #1f5a3a;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  footer { text-align: center; margin-top: 18px; font-size: 12px; color: #5d667c; }
 </style>
 </head>
 <body>
-<header>
- <div class="logo">AVCOE<span>Deploy</span></div>
- <div>Student Platform</div>
-</header>
+<div class="wrap">
+  <header>
+    <h1>AVCOE <span>Deploy</span></h1>
+    <p>Apni website upload karo, live URL pao</p>
+  </header>
 
-<main>
- <section class="hero">
-  <h1>Deploy your projects.</h1>
-  <p>Your project deserves its own place on the internet.</p>
- </section>
+  <div class="card">
+    <label class="lbl" for="pname">Project ka naam</label>
+    <input type="text" id="pname" placeholder="jaise: mono portfolio" maxlength="40" autocomplete="off">
+    <div class="hint">URL banega: <span class="slug" id="slugPreview">avcoe-...</span>.pages.dev</div>
 
- <section class="card">
-  <h2>Create a new project</h2>
-  <p>Choose a unique project name to get started.</p>
-  <input id="project" placeholder="Enter project name">
-  <button onclick="preview()">Create project</button>
-  <p id="result">Deployment service is being configured.</p>
- </section>
+    <label class="drop" for="file">
+      <strong>HTML ya ZIP file chuno</strong>
+      index.html ya poori website ka .zip (max 10 MB)
+      <input type="file" id="file" accept=".html,.htm,.zip">
+    </label>
+    <div class="fileinfo" id="fileinfo"></div>
 
- <section class="features">
-  <div class="feature">
-   <h3>01. Upload</h3>
-   <p>Upload your HTML, CSS and JavaScript projects.</p>
+    <button id="go" disabled>Deploy karo</button>
+
+    <div class="box status" id="status"></div>
+    <div class="box error" id="error"></div>
+    <div class="box ok" id="ok"></div>
   </div>
-  <div class="feature">
-   <h3>02. Deploy</h3>
-   <p>Publish your project online.</p>
-  </div>
-  <div class="feature">
-   <h3>03. Share</h3>
-   <p>Get your own project subdomain.</p>
-  </div>
- </section>
-</main>
 
-<footer>AVCOE Deploy · Student Project Hosting</footer>
+  <footer>AVCOE Deploy &middot; Demo version</footer>
+</div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script>
-function preview(){
- const name=document.getElementById('project').value.trim().toLowerCase();
- const result=document.getElementById('result');
+// SIRF YE EK LINE BADALNI HAI: XXXX ki jagah apna asli workers.dev URL
+const API_URL = "https://avcoe-deploy-api.XXXX.workers.dev";
 
- if(!/^[a-z0-9-]{3,30}$/.test(name)){
-  result.textContent="Use 3-30 letters, numbers or hyphens.";
-  return;
- }
+const ALLOWED = ["html","htm","css","js","json","txt","svg","png","jpg","jpeg","gif","webp","ico","woff","woff2","ttf"];
+const MAX_ZIP_BYTES = 10 * 1024 * 1024;
+const MAX_HTML_BYTES = 5 * 1024 * 1024;
 
- result.textContent="Project name accepted: "+name+
- ". Deployment backend is coming next.";
+const $ = (id) => document.getElementById(id);
+const pname = $("pname"), fileInput = $("file"), goBtn = $("go");
+let chosen = null;
+
+function makeSlug(name) {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 30).replace(/-+$/g, "");
 }
+
+function updateState() {
+  const slug = makeSlug(pname.value);
+  $("slugPreview").textContent = "avcoe-" + (slug || "...");
+  goBtn.disabled = !(slug.length >= 3 && chosen);
+}
+
+pname.addEventListener("input", updateState);
+
+fileInput.addEventListener("change", () => {
+  chosen = fileInput.files[0] || null;
+  hideBoxes();
+  if (chosen) {
+    const kb = (chosen.size / 1024).toFixed(1);
+    $("fileinfo").textContent = chosen.name + " (" + kb + " KB)";
+  } else {
+    $("fileinfo").textContent = "";
+  }
+  updateState();
+});
+
+function hideBoxes() {
+  ["status", "error", "ok"].forEach((id) => $(id).classList.remove("show"));
+}
+function showStatus(msg) {
+  hideBoxes();
+  $("status").textContent = msg;
+  $("status").classList.add("show");
+}
+function showError(msg) {
+  hideBoxes();
+  $("error").textContent = msg;
+  $("error").classList.add("show");
+}
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(String(r.result).split(",")[1]);
+    r.onerror = () => reject(new Error("File padh nahi paye"));
+    r.readAsDataURL(file);
+  });
+}
+
+function extOf(path) {
+  const i = path.lastIndexOf(".");
+  return i > path.lastIndexOf("/") ? path.slice(i + 1).toLowerCase() : "";
+}
+
+async function collectFiles(file) {
+  const ext = extOf(file.name);
+
+  if (ext === "html" || ext === "htm") {
+    if (file.size > MAX_HTML_BYTES) throw new Error("HTML file 5 MB se badi hai");
+    return { files: [{ path: "index.html", data: await fileToBase64(file) }], skipped: 0 };
+  }
+
+  if (ext !== "zip") throw new Error("Sirf .html ya .zip file chalegi");
+  if (file.size > MAX_ZIP_BYTES) throw new Error("ZIP 10 MB se badi hai");
+  if (typeof JSZip === "undefined") throw new Error("ZIP library load nahi hui. Internet check karke page refresh karo");
+
+  const zip = await JSZip.loadAsync(file);
+  let list = [];
+  zip.forEach((p, entry) => {
+    if (entry.dir) return;
+    if (p.startsWith("__MACOSX/")) return;
+    if (p.split("/").some((s) => s.startsWith("."))) return;
+    list.push({ path: p, entry });
+  });
+
+  if (list.length === 0) throw new Error("ZIP khaali hai");
+
+  // Agar sab files ek hi folder ke andar hain, to us folder ko hata do
+  if (!list.some((x) => x.path === "index.html")) {
+    const first = list[0].path.split("/")[0];
+    if (list.every((x) => x.path.startsWith(first + "/"))) {
+      list = list.map((x) => ({ path: x.path.slice(first.length + 1), entry: x.entry }));
+    }
+  }
+
+  let skipped = 0;
+  const files = [];
+  for (const x of list) {
+    if (!ALLOWED.includes(extOf(x.path))) { skipped++; continue; }
+    files.push({ path: x.path, data: await x.entry.async("base64") });
+  }
+
+  if (!files.some((f) => f.path === "index.html")) {
+    throw new Error("ZIP ke main folder mein index.html nahi mili");
+  }
+  return { files, skipped };
+}
+
+goBtn.addEventListener("click", async () => {
+  goBtn.disabled = true;
+  try {
+    showStatus("Files taiyaar ho rahi hain...");
+    const { files, skipped } = await collectFiles(chosen);
+
+    showStatus("Deploy ho raha hai (" + files.length + " files)... 10-30 second lag sakte hain");
+    const res = await fetch(API_URL + "/deploy", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: pname.value, files })
+    });
+
+    let data;
+    try { data = await res.json(); } catch (e) { data = null; }
+
+    if (!data || !data.success) {
+      const msg = data && data.message ? data.message : "Deploy fail hua (server ne jawab nahi diya)";
+      const detail = data && data.detail ? "\nDetail: " + data.detail : "";
+      showError(msg + detail);
+      return;
+    }
+
+    hideBoxes();
+    const ok = $("ok");
+    ok.innerHTML = "";
+    const title = document.createElement("div");
+    title.textContent = data.updated ? "Website update ho gayi!" : "Website live ho gayi!";
+    ok.appendChild(title);
+
+    const a = document.createElement("a");
+    a.href = data.live_url;
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.textContent = data.live_url;
+    ok.appendChild(a);
+
+    const note = document.createElement("div");
+    note.style.marginTop = "8px";
+    note.style.fontSize = "12px";
+    note.textContent = "Pehli baar khulne mein 10-30 second lag sakte hain. " +
+      (skipped ? skipped + " file(s) skip hui (type allowed nahi)." : "");
+    ok.appendChild(note);
+
+    const row = document.createElement("div");
+    row.className = "row";
+    const copy = document.createElement("button");
+    copy.textContent = "Link copy karo";
+    copy.onclick = () => {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(data.live_url).then(() => { copy.textContent = "Copy ho gaya"; });
+      }
+    };
+    row.appendChild(copy);
+    ok.appendChild(row);
+    ok.classList.add("show");
+
+  } catch (err) {
+    showError(err && err.message ? err.message : "Kuch galat ho gaya");
+  } finally {
+    updateState();
+  }
+});
 </script>
 </body>
 </html>
