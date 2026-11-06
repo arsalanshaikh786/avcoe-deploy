@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AVCOE Deploy</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#090d18;color:#fff;
+ font-family:Arial,sans-serif;
+}
+header{
+ padding:22px 7%;display:flex;
+ justify-content:space-between;align-items:center;
+ border-bottom:1px solid #242b3b;
+}
+.logo{font-size:23px;font-weight:bold}
+.logo span{color:#7c83ff}
+main{max-width:1000px;margin:75px auto;padding:20px}
+h1{font-size:46px;margin-bottom:12px}
+p{color:#9ba6bb;line-height:1.6}
+.hero{text-align:center}
+.hero p{font-size:17px}
+.card{
+ margin:40px auto;padding:35px;
+ max-width:650px;background:#111827;
+ border:1px solid #293348;border-radius:16px;
+}
+input{
+ width:100%;padding:15px;margin:12px 0;
+ background:#090d18;color:white;
+ border:1px solid #39445b;border-radius:8px;
+}
+button{
+ padding:14px 22px;border:0;border-radius:8px;
+ background:#777cff;color:white;
+ font-weight:bold;cursor:pointer;
+}
+button:disabled{opacity:.6;cursor:not-allowed}
+.features{
+ display:grid;grid-template-columns:repeat(3,1fr);
+ gap:15px;margin-top:45px;
+}
+.feature{
+ padding:22px;background:#111827;
+ border:1px solid #293348;border-radius:12px;
+}
+footer{text-align:center;padding:30px;color:#78849a}
+@media(max-width:650px){
+ h1{font-size:34px}
+ .features{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header>
+ <div class="logo">AVCOE<span>Deploy</span></div>
+ <div>Student Platform</div>
+</header>
+
+<main>
+ <section class="hero">
+  <h1>Deploy your projects.</h1>
+  <p>Your project deserves its own place on the internet.</p>
+ </section>
+
+ <section class="card">
+  <h2>Create a new project</h2>
+  <p>Choose a unique project name to get started.</p>
+  <input id="project" placeholder="Enter project name">
+  <button onclick="preview()">Create project</button>
+  <p id="result">Deployment service is being configured.</p>
+ </section>
+
+ <section class="features">
+  <div class="feature">
+   <h3>01. Upload</h3>
+   <p>Upload your HTML, CSS and JavaScript projects.</p>
+  </div>
+  <div class="feature">
+   <h3>02. Deploy</h3>
+   <p>Publish your project online.</p>
+  </div>
+  <div class="feature">
+   <h3>03. Share</h3>
+   <p>Get your own project subdomain.</p>
+  </div>
+ </section>
+</main>
+
+<footer>AVCOE Deploy · Student Project Hosting</footer>
+
+<script>
+function preview(){
+ const name=document.getElementById('project').value.trim().toLowerCase();
+ const result=document.getElementById('result');
+
+ if(!/^[a-z0-9-]{3,30}$/.test(name)){
+  result.textContent="Use 3-30 letters, numbers or hyphens.";
+  return;
+ }
+
+ result.textContent="Project name accepted: "+name+
+ ". Deployment backend is coming next.";
+}
+</script>
+</body>
+</html>
