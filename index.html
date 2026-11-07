@@ -16,29 +16,18 @@
     justify-content: center;
     padding: 24px 16px;
   }
-  .wrap { width: 100%; max-width: 560px; }
+  .wrap { width: 100%; max-width: 600px; }
   header { text-align: center; margin-bottom: 20px; }
   header h1 { font-size: 28px; letter-spacing: 0.5px; }
   header h1 span { color: #5b8cff; }
   header p { color: #8b93a7; margin-top: 6px; font-size: 14px; }
-  .card {
-    background: #151922;
-    border: 1px solid #242a38;
-    border-radius: 14px;
-    padding: 20px;
-  }
+  .card { background: #151922; border: 1px solid #242a38; border-radius: 14px; padding: 20px; }
   .center { text-align: center; color: #8b93a7; }
   label.lbl { display: block; font-size: 13px; color: #8b93a7; margin: 14px 0 6px; }
   label.lbl:first-child { margin-top: 0; }
   input[type="text"], input[type="email"], input[type="password"], select {
-    width: 100%;
-    padding: 12px 14px;
-    background: #0b0d12;
-    border: 1px solid #242a38;
-    border-radius: 10px;
-    color: #e8eaf0;
-    font-size: 16px;
-    outline: none;
+    width: 100%; padding: 12px 14px; background: #0b0d12; border: 1px solid #242a38;
+    border-radius: 10px; color: #e8eaf0; font-size: 16px; outline: none;
   }
   input:focus, select:focus { border-color: #5b8cff; }
   input[readonly] { opacity: 0.6; }
@@ -47,87 +36,39 @@
   .slug { color: #5b8cff; word-break: break-all; }
   .tabs { display: flex; gap: 6px; margin-bottom: 14px; }
   .tabs button {
-    flex: 1;
-    padding: 10px 6px;
-    background: #151922;
-    color: #8b93a7;
-    border: 1px solid #242a38;
-    border-radius: 10px;
-    font-size: 14px;
-    cursor: pointer;
+    flex: 1; padding: 10px 6px; background: #151922; color: #8b93a7;
+    border: 1px solid #242a38; border-radius: 10px; font-size: 14px; cursor: pointer;
   }
   .tabs button.on { background: #5b8cff; color: #fff; border-color: #5b8cff; font-weight: 600; }
   .btn {
-    width: 100%;
-    margin-top: 18px;
-    padding: 14px;
-    background: #5b8cff;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
+    width: 100%; margin-top: 18px; padding: 14px; background: #5b8cff; color: #fff;
+    border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer;
   }
   .btn:disabled { background: #2f3850; color: #7b84a0; cursor: not-allowed; }
-  .link {
-    background: none;
-    border: none;
-    color: #5b8cff;
-    font-size: 13px;
-    margin-top: 12px;
-    cursor: pointer;
-    text-decoration: underline;
-  }
-  .sm {
-    padding: 8px 12px;
-    background: #242a38;
-    color: #e8eaf0;
-    border: none;
-    border-radius: 8px;
-    font-size: 13px;
-    cursor: pointer;
-  }
+  .link { background: none; border: none; color: #5b8cff; font-size: 13px; margin-top: 12px; cursor: pointer; text-decoration: underline; }
+  .sm { padding: 8px 12px; background: #242a38; color: #e8eaf0; border: none; border-radius: 8px; font-size: 13px; cursor: pointer; }
   .sm.pri { background: #5b8cff; color: #fff; }
+  .sm:disabled { opacity: 0.5; cursor: not-allowed; }
   .userbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 14px;
-    padding: 12px 14px;
-    background: #151922;
-    border: 1px solid #242a38;
-    border-radius: 12px;
+    display: flex; justify-content: space-between; align-items: center; gap: 10px;
+    margin-bottom: 14px; padding: 12px 14px; background: #151922;
+    border: 1px solid #242a38; border-radius: 12px;
   }
   .userbar b { font-size: 15px; }
   .userbar .meta { font-size: 12px; color: #8b93a7; margin-top: 2px; }
   .userbar .acts { display: flex; gap: 8px; align-items: center; }
   .userbar a { color: #7dffb0; font-size: 13px; }
   .drop {
-    display: block;
-    margin-top: 18px;
-    padding: 26px 14px;
-    text-align: center;
-    border: 2px dashed #2f3850;
-    border-radius: 12px;
-    cursor: pointer;
-    color: #8b93a7;
-    font-size: 14px;
+    display: block; margin-top: 18px; padding: 26px 14px; text-align: center;
+    border: 2px dashed #2f3850; border-radius: 12px; cursor: pointer; color: #8b93a7; font-size: 14px;
   }
   .drop:hover { border-color: #5b8cff; }
   .drop strong { color: #e8eaf0; display: block; margin-bottom: 4px; font-size: 15px; }
   .drop input { display: none; }
   .fileinfo { margin-top: 10px; font-size: 13px; color: #b6bdd0; word-break: break-all; }
   .box {
-    display: none;
-    margin-top: 16px;
-    padding: 14px;
-    border-radius: 10px;
-    font-size: 14px;
-    line-height: 1.5;
-    word-break: break-word;
-    white-space: pre-line;
+    display: none; margin-top: 16px; padding: 14px; border-radius: 10px;
+    font-size: 14px; line-height: 1.5; word-break: break-word; white-space: pre-line;
   }
   .box.show { display: block; }
   .box.status { background: #1a2133; border: 1px solid #2f3a58; color: #b6c4ee; }
@@ -135,35 +76,50 @@
   .box.ok { background: #12261c; border: 1px solid #1f5a3a; color: #a8f0c6; }
   .box.ok a { color: #7dffb0; font-weight: 600; word-break: break-all; }
   .banner {
-    margin-bottom: 14px;
-    padding: 10px 12px;
-    background: #2a2412;
-    border: 1px solid #5a4a1f;
-    color: #ffe3a0;
-    border-radius: 10px;
-    font-size: 13px;
+    margin-bottom: 14px; padding: 10px 12px; background: #2a2412; border: 1px solid #5a4a1f;
+    color: #ffe3a0; border-radius: 10px; font-size: 13px;
   }
   .banner button { margin-left: 8px; }
-  .proj {
-    background: #151922;
-    border: 1px solid #242a38;
-    border-radius: 12px;
-    padding: 14px;
-    margin-bottom: 10px;
-  }
+  .proj { background: #151922; border: 1px solid #242a38; border-radius: 12px; padding: 14px; margin-bottom: 10px; }
   .proj h3 { font-size: 16px; margin-bottom: 4px; }
   .proj a { color: #7dffb0; font-size: 13px; word-break: break-all; }
   .proj .m { font-size: 12px; color: #8b93a7; margin: 6px 0 10px; }
   .proj .acts { display: flex; gap: 8px; flex-wrap: wrap; }
-  .files { margin-top: 10px; border-top: 1px solid #242a38; padding-top: 8px; max-height: 260px; overflow-y: auto; }
-  .frow { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; padding: 4px 0; }
-  .frow a { color: #b6c4ee; }
-  .frow span { color: #8b93a7; white-space: nowrap; }
   .empty { text-align: center; color: #8b93a7; padding: 24px 10px; font-size: 14px; }
   .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
   .stat { background: #0b0d12; border: 1px solid #242a38; border-radius: 10px; padding: 12px; text-align: center; }
   .stat b { display: block; font-size: 22px; color: #5b8cff; }
   .stat span { font-size: 12px; color: #8b93a7; }
+  /* file manager */
+  .mgrhead { display: flex; gap: 12px; align-items: center; margin-bottom: 14px; }
+  .mgrhead b { font-size: 16px; }
+  .mgrhead a { color: #7dffb0; font-size: 12px; word-break: break-all; }
+  .addbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; }
+  .addbar input[type="text"] { flex: 1; min-width: 140px; padding: 8px 10px; font-size: 13px; }
+  .filebtn { display: inline-block; cursor: pointer; }
+  .filebtn input { display: none; }
+  .mrow { display: flex; align-items: center; gap: 8px; padding: 9px 0; border-bottom: 1px solid #242a38; flex-wrap: wrap; }
+  .mname { flex: 1; min-width: 150px; font-size: 13px; word-break: break-all; }
+  .mname a { color: #b6c4ee; }
+  .mname small { display: block; color: #ffe3a0; font-size: 11px; margin-top: 2px; }
+  .msz { font-size: 11px; color: #8b93a7; white-space: nowrap; }
+  .mact { display: flex; gap: 6px; }
+  .mrow.del .mname a, .mrow.del .mname span { text-decoration: line-through; opacity: 0.6; }
+  .pending {
+    margin-top: 14px; padding: 10px; background: #2a2412; border: 1px solid #5a4a1f; border-radius: 10px;
+    display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 13px; color: #ffe3a0;
+  }
+  .pending span { flex: 1; min-width: 120px; }
+  /* editor */
+  #editor { position: fixed; inset: 0; background: #0b0d12; display: flex; flex-direction: column; z-index: 50; }
+  .edbar { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 10px 12px; background: #151922; border-bottom: 1px solid #242a38; }
+  .edbar b { font-size: 13px; word-break: break-all; }
+  .edbar .btns { display: flex; gap: 6px; }
+  #edText {
+    flex: 1; width: 100%; padding: 12px; background: #0b0d12; color: #e8eaf0; border: none; outline: none;
+    font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; line-height: 1.5; resize: none; tab-size: 2;
+  }
+  .edhint { padding: 8px 12px; font-size: 11px; color: #8b93a7; background: #151922; border-top: 1px solid #242a38; }
   footer { text-align: center; margin-top: 18px; font-size: 12px; color: #5d667c; }
 </style>
 </head>
@@ -250,9 +206,9 @@
         <div class="hint">URL banega: <span class="slug" id="slugPreview">...</span>.pages.dev</div>
 
         <label class="drop" for="file">
-          <strong>HTML ya ZIP file chuno</strong>
-          index.html ya poori website ka .zip (max 10 MB)
-          <input type="file" id="file" accept=".html,.htm,.zip">
+          <strong>Files chuno (ek ya zyada)</strong>
+          Ek ZIP, ya index.html + style.css + script.js + images ek saath (total max 10 MB)
+          <input type="file" id="file" multiple accept=".html,.htm,.zip,.css,.js,.json,.txt,.svg,.png,.jpg,.jpeg,.gif,.webp,.ico,.woff,.woff2,.ttf">
         </label>
         <div class="fileinfo" id="fileinfo"></div>
 
@@ -264,9 +220,39 @@
       </div>
     </section>
 
-    <!-- PROJECTS -->
+    <!-- PROJECTS + FILE MANAGER -->
     <section id="tab-projects" hidden>
       <div id="projList"></div>
+
+      <div id="mgrView" hidden>
+        <div class="card">
+          <div class="mgrhead">
+            <button class="sm" id="mgrBack" type="button">&larr; Back</button>
+            <div>
+              <b id="mgrSlug"></b><br>
+              <a id="mgrUrl" target="_blank" rel="noopener"></a>
+            </div>
+          </div>
+
+          <div class="addbar">
+            <input type="text" id="addFolder" placeholder="Folder (optional), jaise: css" maxlength="40">
+            <label class="sm pri filebtn">Files add karo
+              <input type="file" id="addFiles" multiple accept=".html,.htm,.css,.js,.json,.txt,.svg,.png,.jpg,.jpeg,.gif,.webp,.ico,.woff,.woff2,.ttf">
+            </label>
+            <button class="sm" id="newFileBtn" type="button">Nayi file banao</button>
+          </div>
+
+          <div id="fileRows"></div>
+
+          <div class="pending" id="pendingBar" hidden>
+            <span id="pendingText"></span>
+            <button class="sm pri" id="mgrDeploy" type="button">Deploy karo</button>
+            <button class="sm" id="mgrDiscard" type="button">Discard</button>
+          </div>
+
+          <div class="box" id="mgrMsg"></div>
+        </div>
+      </div>
     </section>
 
     <!-- PROFILE -->
@@ -301,6 +287,19 @@
   <footer>AVCOE Deploy &middot; Demo version</footer>
 </div>
 
+<!-- CODE EDITOR -->
+<div id="editor" hidden>
+  <div class="edbar">
+    <b id="edPath"></b>
+    <div class="btns">
+      <button class="sm pri" id="edSave" type="button">Save</button>
+      <button class="sm" id="edCancel" type="button">Cancel</button>
+    </div>
+  </div>
+  <textarea id="edText" spellcheck="false" autocapitalize="off" autocorrect="off" wrap="off"></textarea>
+  <div class="edhint">Save sirf list mein change jodta hai. Site tabhi live hogi jab File Manager mein 'Deploy karo' dabao.</div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -331,8 +330,9 @@ const API_URL = "https://avcoe-deploy-api.anastambolianas.workers.dev";
 const BRANCHES = ["First Year (FE)", "Computer", "IT", "AI & Data Science", "E&TC", "Mechanical", "Civil", "Electrical", "Other"];
 const YEARS = ["FE", "SE", "TE", "BE"];
 const ALLOWED = ["html","htm","css","js","json","txt","svg","png","jpg","jpeg","gif","webp","ico","woff","woff2","ttf"];
-const MAX_ZIP_BYTES = 10 * 1024 * 1024;
-const MAX_HTML_BYTES = 5 * 1024 * 1024;
+const TEXT_EXTS = ["html","htm","css","js","json","txt","svg"];
+const MAX_FILE_BYTES = 5 * 1024 * 1024;
+const MAX_TOTAL_BYTES = 10 * 1024 * 1024;
 
 const $ = (id) => document.getElementById(id);
 
@@ -394,6 +394,46 @@ function extOf(path) {
   return i > path.lastIndexOf("/") ? path.slice(i + 1).toLowerCase() : "";
 }
 
+function validPath(p) {
+  if (!p || p.length > 200) return false;
+  return p.split("/").every((s) => s && s !== "." && s !== ".." && !s.startsWith(".") && /^[A-Za-z0-9._\-~ ()+@]+$/.test(s));
+}
+
+function cleanInputPath(p) {
+  return String(p || "").trim().replace(/\\/g, "/").replace(/^\/+/, "");
+}
+
+function textToB64(t) {
+  const bytes = new TextEncoder().encode(t);
+  let bin = "";
+  const CH = 0x8000;
+  for (let i = 0; i < bytes.length; i += CH) {
+    bin += String.fromCharCode.apply(null, bytes.subarray(i, i + CH));
+  }
+  return btoa(bin);
+}
+
+function b64ToText(b64) {
+  const bin = atob(b64);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
+}
+
+function b64Size(b64) {
+  const pad = b64.endsWith("==") ? 2 : b64.endsWith("=") ? 1 : 0;
+  return Math.floor(b64.length * 3 / 4) - pad;
+}
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(String(r.result).split(",")[1]);
+    r.onerror = () => reject(new Error("File padh nahi paye: " + file.name));
+    r.readAsDataURL(file);
+  });
+}
+
 function authErr(e) {
   const c = (e && e.code) || "";
   const map = {
@@ -414,8 +454,10 @@ function authErr(e) {
 let me = null;
 let registering = false;
 let projects = [];
-let chosen = null;
+let chosen = [];
 let updateSlug = null;
+let mgr = null;
+let edIdx = -1;
 
 fillSelect($("rBranch"), BRANCHES, "Chuno");
 fillSelect($("rYear"), YEARS, "Chuno");
@@ -428,7 +470,7 @@ function showView(v) {
   $("appView").hidden = v !== "app";
 }
 
-// ---------- auth UI ----------
+// ---------- auth ----------
 function setAuthMode(m) {
   $("loginForm").hidden = m !== "login";
   $("regForm").hidden = m !== "register";
@@ -492,7 +534,7 @@ $("regForm").addEventListener("submit", async (ev) => {
     await enter(cred.user);
   } catch (e) {
     registering = false;
-    msg("authMsg", authErr(e) + (e && e.code && e.code.startsWith("permission") ? "" : ""), "error");
+    msg("authMsg", authErr(e), "error");
     if (auth.currentUser) {
       try { await signOut(auth); } catch (x) {}
       msg("authMsg", "Account ban gaya par profile save nahi hua (" + ((e && (e.code || e.message)) || "error") + "). Firestore rules check karo, phir Login karo.", "error");
@@ -544,6 +586,7 @@ async function enter(user) {
   $("adminLink").hidden = me.role !== "admin";
 
   resetDeploy();
+  closeManager(true);
   showView("app");
   switchTab("deploy");
   loadProjects();
@@ -555,9 +598,7 @@ function refreshHeader() {
     [me.branch, me.year, me.roll ? "Roll " + me.roll : ""].filter(Boolean).join(" · ") || me.email || "";
 }
 
-$("logoutBtn").addEventListener("click", async () => {
-  await signOut(auth);
-});
+$("logoutBtn").addEventListener("click", async () => { await signOut(auth); });
 
 // ---------- tabs ----------
 function switchTab(t) {
@@ -592,7 +633,7 @@ $("pfSave").addEventListener("click", async () => {
   }
 });
 
-// ---------- projects ----------
+// ---------- projects list ----------
 async function loadProjects() {
   if (!me) return;
   try {
@@ -624,17 +665,9 @@ function renderProjects() {
   }
 
   for (const p of projects) {
-    const filesBox = el("div", { class: "files", hidden: "" });
-    for (const f of p.files || []) {
-      filesBox.append(el("div", { class: "frow" },
-        el("a", { href: fileUrl(p.url, f.p), target: "_blank", rel: "noopener", text: f.p }),
-        el("span", { text: fmtSize(f.s) })
-      ));
-    }
-    if (!(p.files || []).length) filesBox.append(el("div", { class: "frow", text: "File list available nahi" }));
-
+    const slug = p.slug || p.id;
     box.append(el("div", { class: "proj" },
-      el("h3", { text: p.slug || p.id }),
+      el("h3", { text: slug }),
       el("a", { href: safeUrl(p.url), target: "_blank", rel: "noopener", text: p.url || "" }),
       el("div", {
         class: "m",
@@ -642,21 +675,20 @@ function renderProjects() {
               (p.deployCount || 1) + " deploy · Update: " + fmtTime(p.updatedAt)
       }),
       el("div", { class: "acts" },
-        el("button", { class: "sm pri", type: "button", text: "Update karo", onclick: () => startUpdate(p.slug || p.id) }),
-        el("button", { class: "sm", type: "button", text: "Files dekho", onclick: () => { filesBox.hidden = !filesBox.hidden; } })
-      ),
-      filesBox
+        el("button", { class: "sm pri", type: "button", text: "Files / Edit", onclick: () => openManager(slug) }),
+        el("button", { class: "sm", type: "button", text: "Update karo (poora)", onclick: () => startUpdate(slug) })
+      )
     ));
   }
 }
 
-// ---------- deploy ----------
+// ---------- deploy (naya / poora update) ----------
 const pname = $("pname"), fileInput = $("file"), goBtn = $("go");
 
 function updateState() {
   const slug = makeSlug(pname.value);
   $("slugPreview").textContent = slug || "...";
-  goBtn.disabled = !(slug.length >= 3 && chosen);
+  goBtn.disabled = !(slug.length >= 3 && chosen.length > 0);
 }
 
 function hideBoxes() {
@@ -670,7 +702,7 @@ function resetDeploy() {
   pname.value = "";
   pname.readOnly = false;
   fileInput.value = "";
-  chosen = null;
+  chosen = [];
   $("fileinfo").textContent = "";
   $("updBanner").hidden = true;
   hideBoxes();
@@ -692,37 +724,17 @@ $("updCancel").addEventListener("click", resetDeploy);
 pname.addEventListener("input", updateState);
 
 fileInput.addEventListener("change", () => {
-  chosen = fileInput.files[0] || null;
+  chosen = Array.from(fileInput.files || []);
   hideBoxes();
-  $("fileinfo").textContent = chosen ? chosen.name + " (" + (chosen.size / 1024).toFixed(1) + " KB)" : "";
+  const total = chosen.reduce((s, f) => s + f.size, 0);
+  $("fileinfo").textContent = chosen.length
+    ? chosen.length + " file(s) chuni (" + fmtSize(total) + "): " + chosen.map((f) => f.name).join(", ")
+    : "";
   updateState();
 });
 
-function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const r = new FileReader();
-    r.onload = () => resolve(String(r.result).split(",")[1]);
-    r.onerror = () => reject(new Error("File padh nahi paye"));
-    r.readAsDataURL(file);
-  });
-}
-
-function b64Size(b64) {
-  const pad = b64.endsWith("==") ? 2 : b64.endsWith("=") ? 1 : 0;
-  return Math.floor(b64.length * 3 / 4) - pad;
-}
-
-async function collectFiles(file) {
-  const ext = extOf(file.name);
-
-  if (ext === "html" || ext === "htm") {
-    if (file.size > MAX_HTML_BYTES) throw new Error("HTML file 5 MB se badi hai");
-    const data = await fileToBase64(file);
-    return { files: [{ path: "index.html", data, size: b64Size(data) }], skipped: 0 };
-  }
-
-  if (ext !== "zip") throw new Error("Sirf .html ya .zip file chalegi");
-  if (file.size > MAX_ZIP_BYTES) throw new Error("ZIP 10 MB se badi hai");
+async function collectZip(file) {
+  if (file.size > MAX_TOTAL_BYTES) throw new Error("ZIP 10 MB se badi hai");
   if (typeof JSZip === "undefined") throw new Error("ZIP library load nahi hui. Internet check karke page refresh karo");
 
   const zip = await JSZip.loadAsync(file);
@@ -752,12 +764,53 @@ async function collectFiles(file) {
   }
 
   if (!files.some((f) => f.path === "index.html")) {
-    throw new Error("ZIP ke main folder mein index.html nahi mili");
+    throw new Error("ZIP ke main folder mein index.html (chhote akshar) nahi mili");
   }
   return { files, skipped };
 }
 
-async function saveRecord(data, files) {
+async function collectFiles(list) {
+  if (list.length === 1) {
+    const ext = extOf(list[0].name);
+    if (ext === "zip") return collectZip(list[0]);
+    if (ext === "html" || ext === "htm") {
+      if (list[0].size > MAX_FILE_BYTES) throw new Error("HTML file 5 MB se badi hai");
+      const data = await fileToBase64(list[0]);
+      return { files: [{ path: "index.html", data, size: b64Size(data) }], skipped: 0 };
+    }
+  }
+
+  if (list.some((f) => extOf(f.name) === "zip")) {
+    throw new Error("ZIP ke saath doosri files mat chuno. Ya sirf ZIP chuno, ya sirf alag files");
+  }
+
+  let total = 0;
+  const files = [];
+  const names = new Set();
+  for (const file of list) {
+    const ext = extOf(file.name);
+    if (!ALLOWED.includes(ext)) throw new Error("Ye file type allowed nahi: " + file.name);
+    if (!validPath(file.name)) throw new Error("File ka naam sahi nahi: " + file.name + " (sirf letters, numbers, . - _ aur space)");
+    if (file.size > MAX_FILE_BYTES) throw new Error("File 5 MB se badi hai: " + file.name);
+    if (names.has(file.name.toLowerCase())) throw new Error("Same naam ki do files: " + file.name);
+    names.add(file.name.toLowerCase());
+    total += file.size;
+    if (total > MAX_TOTAL_BYTES) throw new Error("Total size 10 MB se zyada hai");
+    const data = await fileToBase64(file);
+    files.push({ path: file.name, data, size: b64Size(data) });
+  }
+
+  if (!files.some((f) => f.path === "index.html")) {
+    const htmls = files.filter((f) => ["html", "htm"].includes(extOf(f.path)));
+    if (htmls.length === 1) htmls[0].path = "index.html";
+    else throw new Error(htmls.length
+      ? "Kaunsi file index hai? Ek HTML file ka naam index.html rakho (chhote akshar) aur dobara chuno"
+      : "Ek HTML file chahiye (wo index.html ban jayegi)");
+  }
+  return { files, skipped: 0 };
+}
+
+async function saveRecord(data) {
   const payload = {
     slug: data.slug,
     ownerUid: me.uid,
@@ -766,9 +819,9 @@ async function saveRecord(data, files) {
     year: me.year || "",
     roll: me.roll || "",
     url: data.live_url,
-    fileCount: data.files,
+    fileCount: data.file_count,
     totalBytes: data.total_bytes,
-    files: files.map((f) => ({ p: f.path, s: f.size })),
+    files: data.file_list,
     updatedAt: serverTimestamp(),
     deployCount: increment(1)
   };
@@ -781,9 +834,9 @@ async function saveRecord(data, files) {
     ownerName: me.name || "",
     branch: me.branch || "",
     year: me.year || "",
-    fileCount: data.files,
+    fileCount: data.file_count,
     totalBytes: data.total_bytes,
-    type: data.updated ? "update" : "new",
+    type: data.mode === "edit" ? "edit" : (data.updated ? "update" : "new"),
     at: serverTimestamp()
   });
 }
@@ -797,7 +850,8 @@ function showSuccess(data, skipped, saved) {
   ok.append(el("div", {
     style: "margin-top:8px;font-size:12px",
     text: "Pehli baar khulne mein 10-30 second lag sakte hain." +
-          (skipped ? " " + skipped + " file(s) skip hui (type allowed nahi)." : "")
+          (skipped ? " " + skipped + " file(s) skip hui (type allowed nahi)." : "") +
+          " Files badalne ke liye 'Mere Projects' mein 'Files / Edit' dabao."
   }));
   if (!saved) {
     ok.append(el("div", {
@@ -846,13 +900,309 @@ goBtn.addEventListener("click", async () => {
     }
 
     let saved = true;
-    try { await saveRecord(data, files); } catch (e) { console.error(e); saved = false; }
+    try { await saveRecord(data); } catch (e) { console.error(e); saved = false; }
 
     showSuccess(data, skipped, saved);
   } catch (err) {
     showError(err && err.message ? err.message : "Kuch galat ho gaya");
   } finally {
     updateState();
+  }
+});
+
+// ---------- file manager ----------
+function freshFile(p) {
+  return { path: p.p, origPath: p.p, size: p.s, text: null, edited: false, newData: null, isNew: false, deleted: false };
+}
+
+function fileChanged(f) {
+  return f.deleted || f.isNew || f.edited || !!f.newData || f.path !== f.origPath;
+}
+
+function openManager(slug) {
+  const p = projects.find((x) => (x.slug || x.id) === slug);
+  if (!p) return;
+  mgr = {
+    slug,
+    url: p.url,
+    files: (p.files || []).map(freshFile).sort((a, b) => a.path.localeCompare(b.path))
+  };
+  $("projList").hidden = true;
+  $("mgrView").hidden = false;
+  $("mgrSlug").textContent = slug;
+  const link = $("mgrUrl");
+  link.href = safeUrl(p.url);
+  link.textContent = p.url || "";
+  $("addFolder").value = "";
+  msg("mgrMsg", "");
+  renderFiles();
+}
+
+function closeManager(force) {
+  if (!mgr) return;
+  if (!force && mgr.files.some(fileChanged) && !confirm("Pending changes hain, discard karke wapas jao?")) return;
+  mgr = null;
+  $("mgrView").hidden = true;
+  $("projList").hidden = false;
+}
+$("mgrBack").addEventListener("click", () => closeManager(false));
+
+$("mgrDiscard").addEventListener("click", () => {
+  if (!mgr || !confirm("Saare pending changes hata du?")) return;
+  const p = projects.find((x) => (x.slug || x.id) === mgr.slug);
+  mgr.files = ((p && p.files) || []).map(freshFile).sort((a, b) => a.path.localeCompare(b.path));
+  msg("mgrMsg", "");
+  renderFiles();
+});
+
+function renderFiles() {
+  const box = $("fileRows");
+  box.innerHTML = "";
+
+  if (!mgr.files.length) {
+    box.append(el("div", { class: "empty", text: "Is project ki file list available nahi. 'Update karo (poora)' se files ek baar dobara upload karo." }));
+  }
+
+  mgr.files.forEach((f, i) => {
+    const tags = [];
+    if (f.isNew) tags.push("NAYI");
+    else if (f.edited || f.newData) tags.push("BADLI HUI");
+    if (!f.isNew && f.path !== f.origPath) tags.push("RENAME: " + f.origPath + " →");
+    if (f.deleted) tags.push("DELETE hogi");
+
+    const live = !f.isNew && !f.edited && !f.newData && !f.deleted;
+    const nameNode = live
+      ? el("a", { href: fileUrl(mgr.url, f.origPath), target: "_blank", rel: "noopener", text: f.path })
+      : el("span", { text: f.path });
+
+    const acts = el("div", { class: "mact" });
+    if (!f.deleted && TEXT_EXTS.includes(extOf(f.path))) {
+      acts.append(el("button", { class: "sm", type: "button", text: "Edit", onclick: () => editFile(i) }));
+    }
+    if (!f.deleted) {
+      acts.append(el("button", { class: "sm", type: "button", text: "Rename", onclick: () => renameFile(i) }));
+    }
+    acts.append(el("button", {
+      class: "sm", type: "button",
+      text: f.deleted ? "Undo" : "Delete",
+      onclick: () => deleteFile(i)
+    }));
+
+    box.append(el("div", { class: "mrow" + (f.deleted ? " del" : "") },
+      el("div", { class: "mname" }, nameNode, tags.length ? el("small", { text: tags.join(" · ") }) : null),
+      el("span", { class: "msz", text: fmtSize(f.size) }),
+      acts
+    ));
+  });
+
+  const n = mgr.files.filter(fileChanged).length;
+  $("pendingBar").hidden = n === 0;
+  $("pendingText").textContent = n + " change(s) pending. Abhi live nahi hue.";
+}
+
+function deleteFile(i) {
+  const f = mgr.files[i];
+  if (f.isNew) mgr.files.splice(i, 1);
+  else f.deleted = !f.deleted;
+  renderFiles();
+}
+
+function renameFile(i) {
+  const f = mgr.files[i];
+  const nv = prompt("Naya naam (folder ke saath, jaise css/style.css):", f.path);
+  if (nv === null) return;
+  const np = cleanInputPath(nv);
+  if (!validPath(np)) return alert("Naam sahi nahi hai. Sirf letters, numbers, . - _ ( ) + @ aur space chalenge");
+  if (extOf(np) !== extOf(f.path)) return alert("Extension nahi badal sakte (jaise .css ko .css hi rakho)");
+  if (mgr.files.some((x, j) => j !== i && !x.deleted && x.path.toLowerCase() === np.toLowerCase())) {
+    return alert("Is naam ki file pehle se hai");
+  }
+  f.path = np;
+  renderFiles();
+}
+
+async function editFile(i) {
+  const f = mgr.files[i];
+  let text = f.text;
+
+  if (text === null) {
+    if (f.newData) {
+      text = b64ToText(f.newData);
+    } else {
+      msg("mgrMsg", "File khul rahi hai...", "status");
+      try {
+        const token = await auth.currentUser.getIdToken();
+        const res = await fetch(
+          API_URL + "/file?slug=" + encodeURIComponent(mgr.slug) + "&path=" + encodeURIComponent(f.origPath),
+          { headers: { "Authorization": "Bearer " + token } }
+        );
+        let data = null;
+        try { data = await res.json(); } catch (e) {}
+        if (!data || !data.success) {
+          msg("mgrMsg", (data && data.message) || "File nahi khul payi", "error");
+          return;
+        }
+        text = data.text;
+        f.text = text;
+        msg("mgrMsg", "");
+      } catch (e) {
+        msg("mgrMsg", "File nahi khul payi: " + (e.message || e), "error");
+        return;
+      }
+    }
+  }
+
+  edIdx = i;
+  $("edPath").textContent = f.path;
+  $("edText").value = text;
+  $("editor").hidden = false;
+  $("edText").focus();
+}
+
+$("edSave").addEventListener("click", () => {
+  const f = mgr && mgr.files[edIdx];
+  if (!f) return;
+  let t = $("edText").value;
+  if (t === "") t = "\n";
+  const original = f.text === null && f.newData ? b64ToText(f.newData) : f.text;
+  if (t !== original || f.isNew) {
+    f.text = t;
+    f.edited = true;
+    f.size = new TextEncoder().encode(t).length;
+  }
+  $("editor").hidden = true;
+  edIdx = -1;
+  renderFiles();
+});
+
+$("edCancel").addEventListener("click", () => {
+  $("editor").hidden = true;
+  edIdx = -1;
+});
+
+function defaultContent(ext) {
+  if (ext === "html" || ext === "htm") {
+    return '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<title>Naya page</title>\n</head>\n<body>\n\n</body>\n</html>\n';
+  }
+  if (ext === "css") return "/* styles */\n";
+  if (ext === "js") return "// code\n";
+  if (ext === "json") return "{}\n";
+  return "\n";
+}
+
+$("newFileBtn").addEventListener("click", () => {
+  const nv = prompt("Nayi file ka naam (folder ke saath, jaise admin.html ya css/style.css):", "");
+  if (nv === null) return;
+  const np = cleanInputPath(nv);
+  const ext = extOf(np);
+  if (!validPath(np) || !TEXT_EXTS.includes(ext)) {
+    return alert("Naam sahi nahi, ya type allowed nahi. Chalega: .html .css .js .json .txt .svg");
+  }
+  if (mgr.files.some((x) => !x.deleted && x.path.toLowerCase() === np.toLowerCase())) {
+    return alert("Is naam ki file pehle se hai");
+  }
+  const text = defaultContent(ext);
+  mgr.files.push({
+    path: np, origPath: np, size: new TextEncoder().encode(text).length,
+    text, edited: true, newData: null, isNew: true, deleted: false
+  });
+  mgr.files.sort((a, b) => a.path.localeCompare(b.path));
+  renderFiles();
+  editFile(mgr.files.findIndex((x) => x.path === np));
+});
+
+$("addFiles").addEventListener("change", async (ev) => {
+  const list = Array.from(ev.target.files || []);
+  ev.target.value = "";
+  if (!mgr || !list.length) return;
+
+  const folder = cleanInputPath($("addFolder").value).replace(/\/+$/, "");
+  const problems = [];
+  let added = 0;
+
+  for (const file of list) {
+    const ext = extOf(file.name);
+    const path = folder ? folder + "/" + file.name : file.name;
+    if (!ALLOWED.includes(ext)) { problems.push(file.name + ": type allowed nahi"); continue; }
+    if (!validPath(path)) { problems.push(file.name + ": naam/folder sahi nahi"); continue; }
+    if (file.size > MAX_FILE_BYTES) { problems.push(file.name + ": 5 MB se badi"); continue; }
+
+    let data;
+    try { data = await fileToBase64(file); } catch (e) { problems.push(file.name + ": padh nahi payi"); continue; }
+    const size = b64Size(data);
+
+    const same = mgr.files.find((x) => !x.deleted && x.path.toLowerCase() === path.toLowerCase());
+    if (same) {
+      same.newData = data;
+      same.edited = false;
+      same.text = null;
+      same.size = size;
+    } else {
+      mgr.files.push({ path, origPath: path, size, text: null, edited: false, newData: data, isNew: true, deleted: false });
+    }
+    added++;
+  }
+
+  mgr.files.sort((a, b) => a.path.localeCompare(b.path));
+  renderFiles();
+  msg("mgrMsg",
+    (added ? added + " file(s) list mein judi. Live karne ke liye 'Deploy karo' dabao." : "") +
+    (problems.length ? "\nSkip: " + problems.join("; ") : ""),
+    problems.length && !added ? "error" : "status");
+});
+
+function buildEntries() {
+  return mgr.files.filter((f) => !f.deleted).map((f) => {
+    if (f.edited) return { path: f.path, data: textToB64(f.text) };
+    if (f.newData) return { path: f.path, data: f.newData };
+    return { path: f.path, keep: f.origPath };
+  });
+}
+
+$("mgrDeploy").addEventListener("click", async () => {
+  if (!mgr || !auth.currentUser || !me) return;
+  const entries = buildEntries();
+
+  if (!entries.some((e) => e.path === "index.html")) {
+    return msg("mgrMsg", "index.html honi chahiye. Kisi file ka naam index.html (chhote akshar) rakho, warna site khulegi nahi.", "error");
+  }
+  if (!confirm("Ye changes live kar du?")) return;
+
+  const btn = $("mgrDeploy");
+  btn.disabled = true;
+  msg("mgrMsg", "Deploy ho raha hai... 10-30 second lag sakte hain", "status");
+  try {
+    const token = await auth.currentUser.getIdToken();
+    const res = await fetch(API_URL + "/edit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
+      body: JSON.stringify({ name: mgr.slug, files: entries })
+    });
+
+    let data = null;
+    try { data = await res.json(); } catch (e) {}
+
+    if (!data || !data.success) {
+      const m = data && data.message ? data.message : "Deploy fail hua (server ne jawab nahi diya)";
+      msg("mgrMsg", m + (data && data.detail ? "\nDetail: " + data.detail : ""), "error");
+      return;
+    }
+
+    let saved = true;
+    try { await saveRecord(data); } catch (e) { console.error(e); saved = false; }
+
+    mgr.files = data.file_list.map(freshFile).sort((a, b) => a.path.localeCompare(b.path));
+    mgr.url = data.live_url;
+    renderFiles();
+    msg("mgrMsg",
+      "Changes live ho gaye! Refresh karke dekho (10-30 second lag sakte hain)." +
+      (saved ? "" : "\nPar project record save nahi hua, Firestore rules check karo."),
+      "ok");
+    loadProjects();
+  } catch (e) {
+    msg("mgrMsg", e && e.message ? e.message : "Kuch galat ho gaya", "error");
+  } finally {
+    btn.disabled = false;
   }
 });
 </script>
