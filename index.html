@@ -4,313 +4,246 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AVCOE Deploy</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  [hidden] { display: none !important; }
-  body {
-    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-    background: #0b0d12;
-    color: #e8eaf0;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    padding: 24px 16px;
-  }
-  .wrap { width: 100%; max-width: 600px; }
-  header { text-align: center; margin-bottom: 20px; }
-  header h1 { font-size: 28px; letter-spacing: 0.5px; }
-  header h1 span { color: #5b8cff; }
-  header p { color: #8b93a7; margin-top: 6px; font-size: 14px; }
-  .card { background: #151922; border: 1px solid #242a38; border-radius: 14px; padding: 20px; }
-  .center { text-align: center; color: #8b93a7; }
-  label.lbl { display: block; font-size: 13px; color: #8b93a7; margin: 14px 0 6px; }
-  label.lbl:first-child { margin-top: 0; }
-  input[type="text"], input[type="email"], input[type="password"], select {
-    width: 100%; padding: 12px 14px; background: #0b0d12; border: 1px solid #242a38;
-    border-radius: 10px; color: #e8eaf0; font-size: 16px; outline: none;
-  }
-  input:focus, select:focus { border-color: #5b8cff; }
-  input[readonly] { opacity: 0.6; }
-  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .hint { font-size: 12px; color: #8b93a7; margin-top: 6px; }
-  .slug { color: #5b8cff; word-break: break-all; }
-  .tabs { display: flex; gap: 6px; margin-bottom: 14px; }
-  .tabs button {
-    flex: 1; padding: 10px 6px; background: #151922; color: #8b93a7;
-    border: 1px solid #242a38; border-radius: 10px; font-size: 14px; cursor: pointer;
-  }
-  .tabs button.on { background: #5b8cff; color: #fff; border-color: #5b8cff; font-weight: 600; }
-  .btn {
-    width: 100%; margin-top: 18px; padding: 14px; background: #5b8cff; color: #fff;
-    border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer;
-  }
-  .btn:disabled { background: #2f3850; color: #7b84a0; cursor: not-allowed; }
-  .link { background: none; border: none; color: #5b8cff; font-size: 13px; margin-top: 12px; cursor: pointer; text-decoration: underline; }
-  .sm { padding: 8px 12px; background: #242a38; color: #e8eaf0; border: none; border-radius: 8px; font-size: 13px; cursor: pointer; }
-  .sm.pri { background: #5b8cff; color: #fff; }
-  .sm:disabled { opacity: 0.5; cursor: not-allowed; }
-  .userbar {
-    display: flex; justify-content: space-between; align-items: center; gap: 10px;
-    margin-bottom: 14px; padding: 12px 14px; background: #151922;
-    border: 1px solid #242a38; border-radius: 12px;
-  }
-  .userbar b { font-size: 15px; }
-  .userbar .meta { font-size: 12px; color: #8b93a7; margin-top: 2px; }
-  .userbar .acts { display: flex; gap: 8px; align-items: center; }
-  .userbar a { color: #7dffb0; font-size: 13px; }
-  .drop {
-    display: block; margin-top: 18px; padding: 26px 14px; text-align: center;
-    border: 2px dashed #2f3850; border-radius: 12px; cursor: pointer; color: #8b93a7; font-size: 14px;
-  }
-  .drop:hover { border-color: #5b8cff; }
-  .drop strong { color: #e8eaf0; display: block; margin-bottom: 4px; font-size: 15px; }
-  .drop input { display: none; }
-  .fileinfo { margin-top: 10px; font-size: 13px; color: #b6bdd0; word-break: break-all; }
-  .box {
-    display: none; margin-top: 16px; padding: 14px; border-radius: 10px;
-    font-size: 14px; line-height: 1.5; word-break: break-word; white-space: pre-line;
-  }
-  .box.show { display: block; }
-  .box.status { background: #1a2133; border: 1px solid #2f3a58; color: #b6c4ee; }
-  .box.error { background: #2a1519; border: 1px solid #5a2630; color: #ffb3bd; }
-  .box.ok { background: #12261c; border: 1px solid #1f5a3a; color: #a8f0c6; }
-  .box.ok a { color: #7dffb0; font-weight: 600; word-break: break-all; }
-  .banner {
-    margin-bottom: 14px; padding: 10px 12px; background: #2a2412; border: 1px solid #5a4a1f;
-    color: #ffe3a0; border-radius: 10px; font-size: 13px;
-  }
-  .banner button { margin-left: 8px; }
-  .proj { background: #151922; border: 1px solid #242a38; border-radius: 12px; padding: 14px; margin-bottom: 10px; }
-  .proj h3 { font-size: 16px; margin-bottom: 4px; }
-  .proj a { color: #7dffb0; font-size: 13px; word-break: break-all; }
-  .proj .m { font-size: 12px; color: #8b93a7; margin: 6px 0 10px; }
-  .proj .acts { display: flex; gap: 8px; flex-wrap: wrap; }
-  .empty { text-align: center; color: #8b93a7; padding: 24px 10px; font-size: 14px; }
-  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
-  .stat { background: #0b0d12; border: 1px solid #242a38; border-radius: 10px; padding: 12px; text-align: center; }
-  .stat b { display: block; font-size: 22px; color: #5b8cff; }
-  .stat span { font-size: 12px; color: #8b93a7; }
-  /* file manager */
-  .mgrhead { display: flex; gap: 12px; align-items: center; margin-bottom: 14px; }
-  .mgrhead b { font-size: 16px; }
-  .mgrhead a { color: #7dffb0; font-size: 12px; word-break: break-all; }
-  .addbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; }
-  .addbar input[type="text"] { flex: 1; min-width: 140px; padding: 8px 10px; font-size: 13px; }
-  .filebtn { display: inline-block; cursor: pointer; }
-  .filebtn input { display: none; }
-  .mrow { display: flex; align-items: center; gap: 8px; padding: 9px 0; border-bottom: 1px solid #242a38; flex-wrap: wrap; }
-  .mname { flex: 1; min-width: 150px; font-size: 13px; word-break: break-all; }
-  .mname a { color: #b6c4ee; }
-  .mname small { display: block; color: #ffe3a0; font-size: 11px; margin-top: 2px; }
-  .msz { font-size: 11px; color: #8b93a7; white-space: nowrap; }
-  .mact { display: flex; gap: 6px; }
-  .mrow.del .mname a, .mrow.del .mname span { text-decoration: line-through; opacity: 0.6; }
-  .pending {
-    margin-top: 14px; padding: 10px; background: #2a2412; border: 1px solid #5a4a1f; border-radius: 10px;
-    display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 13px; color: #ffe3a0;
-  }
-  .pending span { flex: 1; min-width: 120px; }
-  /* editor */
-  #editor { position: fixed; inset: 0; background: #0b0d12; display: flex; flex-direction: column; z-index: 50; }
-  .edbar { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 10px 12px; background: #151922; border-bottom: 1px solid #242a38; }
-  .edbar b { font-size: 13px; word-break: break-all; }
-  .edbar .btns { display: flex; gap: 6px; }
-  #edText {
-    flex: 1; width: 100%; padding: 12px; background: #0b0d12; color: #e8eaf0; border: none; outline: none;
-    font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; line-height: 1.5; resize: none; tab-size: 2;
-  }
-  .edhint { padding: 8px 12px; font-size: 11px; color: #8b93a7; background: #151922; border-top: 1px solid #242a38; }
-  footer { text-align: center; margin-top: 18px; font-size: 12px; color: #5d667c; }
+:root{--bg:0 0% 100%;--fg:240 10% 3.9%;--mut:240 4.8% 95.9%;--mf:240 3.8% 46.1%;--bd:240 5.9% 90%;--pri:240 5.9% 10%;--prf:0 0% 98%;--ok:142 71% 35%;--err:0 72% 51%;--warn:38 92% 40%;--r:.5rem}
+:root[data-theme=dark]{--bg:0 0% 4%;--fg:0 0% 98%;--mut:240 3.7% 12%;--mf:240 5% 64.9%;--bd:240 3.7% 17%;--pri:0 0% 98%;--prf:240 5.9% 10%;--ok:142 69% 58%;--err:0 84% 65%;--warn:43 96% 60%}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+body{font-family:"Geist",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:hsl(var(--bg));color:hsl(var(--fg));line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:inherit}.mono{font-family:"Geist Mono",ui-monospace,Menlo,Consolas,monospace}
+:focus-visible{outline:2px solid hsl(var(--fg)/.6);outline-offset:2px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+/* top bar */
+.top{border-bottom:1px solid hsl(var(--bd));background:hsl(var(--bg)/.85);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:56px;gap:12px}
+.logo{font-weight:700;letter-spacing:-.01em;text-decoration:none;display:flex;align-items:center;gap:8px}
+.logo i{width:20px;height:20px;background:hsl(var(--fg));clip-path:polygon(50% 8%,100% 92%,0 92%);display:block}
+.logo span{color:hsl(var(--mf));font-weight:500}
+.right{display:flex;align-items:center;gap:8px}
+.ava{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,hsl(var(--fg)/.9),hsl(var(--mf)));color:hsl(var(--bg));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex:none}
+.who{display:flex;align-items:center;gap:10px;min-width:0}
+.who b{font-size:14px;display:block;line-height:1.2}.who .meta{font-size:12px;color:hsl(var(--mf));line-height:1.2}
+.who>div{min-width:0}
+.nav{display:flex;gap:4px;border-bottom:1px solid hsl(var(--bd));overflow-x:auto}
+.nav button{background:none;border:none;border-bottom:2px solid transparent;padding:12px 12px;font:inherit;font-size:14px;color:hsl(var(--mf));cursor:pointer;white-space:nowrap;margin-bottom:-1px}
+.nav button:hover{color:hsl(var(--fg))}.nav button.on{color:hsl(var(--fg));border-bottom-color:hsl(var(--fg));font-weight:500}
+main{padding:28px 0 48px}
+h2{font-size:24px;letter-spacing:-.025em;font-weight:600}.sub{color:hsl(var(--mf));font-size:14px;margin:4px 0 20px}
+/* buttons */
+.btn,.sm{display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:var(--r);font:inherit;font-weight:500;cursor:pointer;border:1px solid hsl(var(--bd));background:hsl(var(--bg));color:hsl(var(--fg));text-decoration:none;transition:background .15s}
+.btn{height:40px;padding:0 18px;font-size:14px;width:100%;margin-top:18px;background:hsl(var(--pri));color:hsl(var(--prf));border-color:transparent}
+.btn:hover{opacity:.9}.btn:disabled{opacity:.45;cursor:not-allowed}
+.sm{height:32px;padding:0 12px;font-size:13px}.sm:hover{background:hsl(var(--mut))}
+.sm.pri{background:hsl(var(--pri));color:hsl(var(--prf));border-color:transparent}.sm.pri:hover{opacity:.9;background:hsl(var(--pri))}
+.sm:disabled{opacity:.5;cursor:not-allowed}
+.link{background:none;border:none;color:hsl(var(--mf));font-size:13px;margin-top:14px;cursor:pointer;text-decoration:underline}
+.icon{width:32px;padding:0}
+/* cards + forms */
+.card{background:hsl(var(--bg));border:1px solid hsl(var(--bd));border-radius:12px;padding:20px}
+label.lbl{display:block;font-size:13px;font-weight:500;margin:14px 0 6px}label.lbl:first-child{margin-top:0}
+input[type=text],input[type=email],input[type=password],select{width:100%;height:40px;padding:0 12px;font:inherit;font-size:14px;color:inherit;background:transparent;border:1px solid hsl(var(--bd));border-radius:var(--r)}
+select option{background:hsl(var(--bg));color:hsl(var(--fg))}
+input[readonly]{opacity:.6}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hint{font-size:12px;color:hsl(var(--mf));margin-top:6px}.slug{color:hsl(var(--fg));font-weight:500}
+.tabs{display:flex;gap:4px;background:hsl(var(--mut));padding:4px;border-radius:10px;margin-bottom:14px}
+.tabs button{flex:1;height:32px;border:none;background:none;border-radius:7px;font:inherit;font-size:14px;color:hsl(var(--mf));cursor:pointer}
+.tabs button.on{background:hsl(var(--bg));color:hsl(var(--fg));font-weight:500;box-shadow:0 1px 2px rgb(0 0 0/.1)}
+.authbox{max-width:400px;margin:56px auto 0}.authbox h2{text-align:center;margin-bottom:4px}.authbox .sub{text-align:center}
+.center{text-align:center;color:hsl(var(--mf));padding:80px 0}
+.box{display:none;margin-top:16px;padding:12px 14px;border-radius:var(--r);font-size:14px;word-break:break-word;white-space:pre-line;border:1px solid hsl(var(--bd))}
+.box.show{display:block}
+.box.status{background:hsl(var(--mut))}.box.error{border-color:hsl(var(--err)/.5);color:hsl(var(--err));background:hsl(var(--err)/.08)}
+.box.ok{border-color:hsl(var(--ok)/.5);background:hsl(var(--ok)/.08)}.box.ok a{font-weight:600;word-break:break-all}
+.banner{margin-bottom:14px;padding:10px 12px;border:1px solid hsl(var(--warn)/.5);background:hsl(var(--warn)/.1);border-radius:var(--r);font-size:13px;display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.drop{display:block;margin-top:18px;padding:34px 14px;text-align:center;border:1.5px dashed hsl(var(--bd));border-radius:12px;cursor:pointer;color:hsl(var(--mf));font-size:13px;transition:.15s}
+.drop:hover{border-color:hsl(var(--fg)/.5);background:hsl(var(--mut)/.6)}
+.drop strong{display:block;color:hsl(var(--fg));font-size:15px;margin-bottom:4px}.drop input{display:none}
+.fileinfo{margin-top:10px;font-size:13px;color:hsl(var(--mf));word-break:break-all}
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.stat{padding:16px}.stat span{font-size:13px;color:hsl(var(--mf))}.stat b{display:block;font-size:26px;font-weight:600;letter-spacing:-.02em;margin-top:2px}
+/* projects */
+#projList{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.proj{border:1px solid hsl(var(--bd));border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;transition:border-color .15s}
+.proj:hover{border-color:hsl(var(--fg)/.35)}
+.ph{display:flex;align-items:center;gap:12px;min-width:0}.ph>div{min-width:0}
+.pav{width:36px;height:36px;border-radius:50%;border:1px solid hsl(var(--bd));display:flex;align-items:center;justify-content:center;font-weight:600;background:hsl(var(--mut));flex:none}
+.proj h3{font-size:15px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.proj a{font-size:13px;color:hsl(var(--mf));word-break:break-all;text-decoration:none}.proj a:hover{color:hsl(var(--fg));text-decoration:underline}
+.proj .m{font-size:12px;color:hsl(var(--mf));display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.proj .m:before{content:"";width:7px;height:7px;border-radius:50%;background:hsl(var(--ok))}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}
+.empty{grid-column:1/-1;text-align:center;color:hsl(var(--mf));padding:48px 10px;font-size:14px;border:1px dashed hsl(var(--bd));border-radius:12px}
+/* file manager */
+.mgrhead{display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+.mgrhead b{font-size:16px}.mgrhead a{font-size:13px;color:hsl(var(--mf));word-break:break-all}
+.addbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.addbar input[type=text]{flex:1;min-width:140px;height:32px;font-size:13px}
+.filebtn input{display:none}
+.mrow{display:flex;align-items:center;gap:8px;padding:10px 0;border-top:1px solid hsl(var(--bd));flex-wrap:wrap}
+.mname{flex:1;min-width:150px;font-size:13px;word-break:break-all}.mname small{display:block;color:hsl(var(--warn));font-size:11px;margin-top:2px}
+.msz{font-size:12px;color:hsl(var(--mf));white-space:nowrap}.mact{display:flex;gap:6px}
+.mrow.del .mname a,.mrow.del .mname span{text-decoration:line-through;opacity:.55}
+.pending{margin-top:14px;padding:10px 12px;border:1px solid hsl(var(--warn)/.5);background:hsl(var(--warn)/.1);border-radius:var(--r);display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px}.pending span{flex:1;min-width:140px}
+/* editor */
+#editor{position:fixed;inset:0;background:hsl(var(--bg));display:flex;flex-direction:column;z-index:50}
+.edbar{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid hsl(var(--bd))}
+.edbar b{font-size:13px;word-break:break-all}.edbar .btns{display:flex;gap:6px}
+#edText{flex:1;width:100%;padding:14px;background:hsl(var(--bg));color:hsl(var(--fg));border:none;outline:none;font-family:"Geist Mono",ui-monospace,Menlo,Consolas,monospace;font-size:13px;line-height:1.6;resize:none;tab-size:2}
+.edhint{padding:8px 14px;font-size:12px;color:hsl(var(--mf));border-top:1px solid hsl(var(--bd))}
+footer{text-align:center;padding:24px 0 40px;font-size:12px;color:hsl(var(--mf))}
+@media(max-width:640px){.stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{grid-column:1/-1}.who>div{display:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
+<header class="top"><div class="wrap">
+  <a class="logo" href="https://avcoe.in"><i></i>AVCOE <span>Deploy</span></a>
+  <div class="right">
+    <button class="sm icon" id="theme" type="button" aria-label="Toggle theme">◐</button>
+    <div class="who" id="whoBox" hidden>
+      <div style="text-align:right"><b id="uName"></b><div class="meta" id="uMeta"></div></div>
+      <div class="ava" id="uAva">A</div>
+      <a id="adminLink" class="sm" href="admin.html" hidden>Admin</a>
+      <button class="sm" id="logoutBtn" type="button">Log out</button>
+    </div>
+  </div>
+</div></header>
+
 <div class="wrap">
-  <header>
-    <h1>AVCOE <span>Deploy</span></h1>
-    <p>Apni website upload karo, live URL pao</p>
-  </header>
+  <div class="center" id="loadingView">Loading...</div>
 
-  <div class="card center" id="loadingView">Loading...</div>
-
-  <!-- LOGIN / REGISTER -->
   <div id="authView" hidden>
-    <div class="tabs">
-      <button id="tabLogin" class="on" type="button">Login</button>
-      <button id="tabReg" type="button">Register</button>
-    </div>
-    <div class="card">
-      <form id="loginForm">
-        <label class="lbl" for="lEmail">Email</label>
-        <input type="email" id="lEmail" autocomplete="email" required>
-        <label class="lbl" for="lPass">Password</label>
-        <input type="password" id="lPass" autocomplete="current-password" required>
-        <button class="btn" id="loginBtn" type="submit">Login karo</button>
-        <div style="text-align:center"><button class="link" id="forgotBtn" type="button">Password bhool gaye?</button></div>
-      </form>
-
-      <form id="regForm" hidden>
-        <label class="lbl" for="rName">Poora naam</label>
-        <input type="text" id="rName" maxlength="60" autocomplete="name" required>
-        <label class="lbl" for="rEmail">Email</label>
-        <input type="email" id="rEmail" autocomplete="email" required>
-        <label class="lbl" for="rPass">Password (kam se kam 6 akshar)</label>
-        <input type="password" id="rPass" autocomplete="new-password" required>
-        <div class="row2">
-          <div>
-            <label class="lbl" for="rBranch">Branch</label>
-            <select id="rBranch" required></select>
+    <div class="authbox">
+      <h2>Welcome to AVCOE Deploy</h2>
+      <p class="sub">Upload your website and get a live URL.</p>
+      <div class="tabs">
+        <button id="tabLogin" class="on" type="button">Log in</button>
+        <button id="tabReg" type="button">Register</button>
+      </div>
+      <div class="card">
+        <form id="loginForm">
+          <label class="lbl" for="lEmail">Email</label>
+          <input type="email" id="lEmail" autocomplete="email" required>
+          <label class="lbl" for="lPass">Password</label>
+          <input type="password" id="lPass" autocomplete="current-password" required>
+          <button class="btn" id="loginBtn" type="submit">Log in</button>
+          <div style="text-align:center"><button class="link" id="forgotBtn" type="button">Forgot your password?</button></div>
+        </form>
+        <form id="regForm" hidden>
+          <label class="lbl" for="rName">Full name</label>
+          <input type="text" id="rName" maxlength="60" autocomplete="name" required>
+          <label class="lbl" for="rEmail">Email</label>
+          <input type="email" id="rEmail" autocomplete="email" required>
+          <label class="lbl" for="rPass">Password (at least 6 characters)</label>
+          <input type="password" id="rPass" autocomplete="new-password" required>
+          <div class="row2">
+            <div><label class="lbl" for="rBranch">Branch</label><select id="rBranch" required></select></div>
+            <div><label class="lbl" for="rYear">Year</label><select id="rYear" required></select></div>
           </div>
-          <div>
-            <label class="lbl" for="rYear">Year</label>
-            <select id="rYear" required></select>
-          </div>
-        </div>
-        <label class="lbl" for="rRoll">Roll number (optional)</label>
-        <input type="text" id="rRoll" maxlength="20">
-        <button class="btn" id="regBtn" type="submit">Account banao</button>
-      </form>
-
-      <div class="box" id="authMsg"></div>
+          <label class="lbl" for="rRoll">Roll number (optional)</label>
+          <input type="text" id="rRoll" maxlength="20">
+          <button class="btn" id="regBtn" type="submit">Create account</button>
+        </form>
+        <div class="box" id="authMsg"></div>
+      </div>
     </div>
   </div>
 
-  <!-- APP -->
   <div id="appView" hidden>
-    <div class="userbar">
-      <div>
-        <b id="uName"></b>
-        <div class="meta" id="uMeta"></div>
-      </div>
-      <div class="acts">
-        <a id="adminLink" href="admin.html" hidden>Admin</a>
-        <button class="sm" id="logoutBtn" type="button">Logout</button>
-      </div>
+    <div class="nav">
+      <button id="nav-projects" type="button" class="on">Projects</button>
+      <button id="nav-deploy" type="button">New deploy</button>
+      <button id="nav-profile" type="button">Settings</button>
     </div>
-
-    <div class="tabs">
-      <button id="nav-deploy" type="button" class="on">Naya Deploy</button>
-      <button id="nav-projects" type="button">Mere Projects</button>
-      <button id="nav-profile" type="button">Profile</button>
-    </div>
-
-    <!-- DEPLOY -->
-    <section id="tab-deploy">
-      <div class="card">
-        <div class="banner" id="updBanner" hidden>
-          <span id="updText"></span>
-          <button class="sm" id="updCancel" type="button">Cancel</button>
+    <main>
+      <section id="tab-projects">
+        <div id="statsRow">
+          <h2>Overview</h2><p class="sub">Your sites and deployments at a glance.</p>
+          <div class="stats">
+            <div class="card stat"><span>Projects</span><b id="stProjects">0</b></div>
+            <div class="card stat"><span>Total deploys</span><b id="stDeploys">0</b></div>
+            <div class="card stat"><span>Storage used</span><b id="stStorage">0 B</b></div>
+          </div>
         </div>
-
-        <label class="lbl" for="pname">Project ka naam</label>
-        <input type="text" id="pname" placeholder="jaise: mono portfolio" maxlength="40" autocomplete="off">
-        <div class="hint">URL banega: <span class="slug" id="slugPreview">...</span>.pages.dev</div>
-
-        <label class="drop" for="file">
-          <strong>Files chuno (ek ya zyada)</strong>
-          Ek ZIP, ya index.html + style.css + script.js + images ek saath (total max 10 MB)
-          <input type="file" id="file" multiple accept=".html,.htm,.zip,.css,.js,.json,.txt,.svg,.png,.jpg,.jpeg,.gif,.webp,.ico,.woff,.woff2,.ttf">
-        </label>
-        <div class="fileinfo" id="fileinfo"></div>
-
-        <button class="btn" id="go" disabled>Deploy karo</button>
-
-        <div class="box status" id="status"></div>
-        <div class="box error" id="error"></div>
-        <div class="box ok" id="ok"></div>
-      </div>
-    </section>
-
-    <!-- PROJECTS + FILE MANAGER -->
-    <section id="tab-projects" hidden>
-      <div id="projList"></div>
-
-      <div id="mgrView" hidden>
-        <div class="card">
-          <div class="mgrhead">
-            <button class="sm" id="mgrBack" type="button">&larr; Back</button>
-            <div>
-              <b id="mgrSlug"></b><br>
-              <a id="mgrUrl" target="_blank" rel="noopener"></a>
+        <div id="projList"></div>
+        <div id="mgrView" hidden>
+          <div class="card">
+            <div class="mgrhead">
+              <button class="sm" id="mgrBack" type="button">&larr; Back</button>
+              <div><b id="mgrSlug"></b><br><a id="mgrUrl" target="_blank" rel="noopener"></a></div>
             </div>
-          </div>
-
-          <div class="addbar">
-            <input type="text" id="addFolder" placeholder="Folder (optional), jaise: css" maxlength="40">
-            <label class="sm pri filebtn">Files add karo
-              <input type="file" id="addFiles" multiple accept=".html,.htm,.css,.js,.json,.txt,.svg,.png,.jpg,.jpeg,.gif,.webp,.ico,.woff,.woff2,.ttf">
-            </label>
-            <button class="sm" id="newFileBtn" type="button">Nayi file banao</button>
-          </div>
-
-          <div id="fileRows"></div>
-
-          <div class="pending" id="pendingBar" hidden>
-            <span id="pendingText"></span>
-            <button class="sm pri" id="mgrDeploy" type="button">Deploy karo</button>
-            <button class="sm" id="mgrDiscard" type="button">Discard</button>
-          </div>
-
-          <div class="box" id="mgrMsg"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PROFILE -->
-    <section id="tab-profile" hidden>
-      <div class="stats">
-        <div class="stat"><b id="stProjects">0</b><span>Projects</span></div>
-        <div class="stat"><b id="stDeploys">0</b><span>Total deploys</span></div>
-      </div>
-      <div class="card">
-        <label class="lbl" for="pfEmail">Email</label>
-        <input type="text" id="pfEmail" readonly>
-        <label class="lbl" for="pfName">Naam</label>
-        <input type="text" id="pfName" maxlength="60">
-        <div class="row2">
-          <div>
-            <label class="lbl" for="pfBranch">Branch</label>
-            <select id="pfBranch"></select>
-          </div>
-          <div>
-            <label class="lbl" for="pfYear">Year</label>
-            <select id="pfYear"></select>
+            <div class="addbar">
+              <input type="text" id="addFolder" placeholder="Folder (optional), e.g. css" maxlength="40">
+              <label class="sm pri filebtn">Add files<input type="file" id="addFiles" multiple accept=".html,.htm,.css,.js,.json,.txt,.svg,.png,.jpg,.jpeg,.gif,.webp,.ico,.woff,.woff2,.ttf"></label>
+              <button class="sm" id="newFileBtn" type="button">New file</button>
+            </div>
+            <div id="fileRows"></div>
+            <div class="pending" id="pendingBar" hidden>
+              <span id="pendingText"></span>
+              <button class="sm pri" id="mgrDeploy" type="button">Deploy</button>
+              <button class="sm" id="mgrDiscard" type="button">Discard</button>
+            </div>
+            <div class="box" id="mgrMsg"></div>
           </div>
         </div>
-        <label class="lbl" for="pfRoll">Roll number</label>
-        <input type="text" id="pfRoll" maxlength="20">
-        <button class="btn" id="pfSave" type="button">Profile save karo</button>
-        <div class="box" id="pfMsg"></div>
-      </div>
-    </section>
+      </section>
+
+      <section id="tab-deploy" hidden>
+        <h2>New deploy</h2><p class="sub">Choose a name, add your files and go live.</p>
+        <div class="card" style="max-width:640px">
+          <div class="banner" id="updBanner" hidden><span id="updText"></span><button class="sm" id="updCancel" type="button">Cancel</button></div>
+          <label class="lbl" for="pname">Project name</label>
+          <input type="text" id="pname" placeholder="e.g. my portfolio" maxlength="40" autocomplete="off">
+          <div class="hint">Your URL: <span class="slug mono" id="slugPreview">...</span>.avcoe.in</div>
+          <label class="drop" for="file">
+            <strong>Choose files</strong>
+            One ZIP, or index.html + style.css + script.js + images together (max 10 MB total)
+            <input type="file" id="file" multiple accept=".html,.htm,.zip,.css,.js,.json,.txt,.svg,.png,.jpg,.jpeg,.gif,.webp,.ico,.woff,.woff2,.ttf">
+          </label>
+          <div class="fileinfo" id="fileinfo"></div>
+          <button class="btn" id="go" disabled>Deploy</button>
+          <div class="box status" id="status"></div>
+          <div class="box error" id="error"></div>
+          <div class="box ok" id="ok"></div>
+        </div>
+      </section>
+
+      <section id="tab-profile" hidden>
+        <h2>Settings</h2><p class="sub">Update your profile details.</p>
+        <div class="card" style="max-width:520px">
+          <label class="lbl" for="pfEmail">Email</label><input type="text" id="pfEmail" readonly>
+          <label class="lbl" for="pfName">Name</label><input type="text" id="pfName" maxlength="60">
+          <div class="row2">
+            <div><label class="lbl" for="pfBranch">Branch</label><select id="pfBranch"></select></div>
+            <div><label class="lbl" for="pfYear">Year</label><select id="pfYear"></select></div>
+          </div>
+          <label class="lbl" for="pfRoll">Roll number</label><input type="text" id="pfRoll" maxlength="20">
+          <button class="btn" id="pfSave" type="button">Save changes</button>
+          <div class="box" id="pfMsg"></div>
+        </div>
+      </section>
+    </main>
   </div>
-
-  <footer>AVCOE Deploy &middot; Demo version</footer>
+  <footer>AVCOE Deploy · Free hosting for students</footer>
 </div>
 
-<!-- CODE EDITOR -->
 <div id="editor" hidden>
-  <div class="edbar">
-    <b id="edPath"></b>
-    <div class="btns">
-      <button class="sm pri" id="edSave" type="button">Save</button>
-      <button class="sm" id="edCancel" type="button">Cancel</button>
-    </div>
-  </div>
+  <div class="edbar"><b id="edPath"></b><div class="btns"><button class="sm pri" id="edSave" type="button">Save</button><button class="sm" id="edCancel" type="button">Cancel</button></div></div>
   <textarea id="edText" spellcheck="false" autocapitalize="off" autocorrect="off" wrap="off"></textarea>
-  <div class="edhint">Save sirf list mein change jodta hai. Site tabhi live hogi jab File Manager mein 'Deploy karo' dabao.</div>
+  <div class="edhint">Saving only adds the change to the list. The site goes live when you press Deploy in the file manager.</div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {
-  getAuth, onAuthStateChanged, createUserWithEmailAndPassword,
-  signInWithEmailAndPassword, signOut, updateProfile, sendPasswordResetEmail
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import {
-  getFirestore, doc, getDoc, setDoc, updateDoc, addDoc, collection,
-  query, where, getDocs, increment, serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc, addDoc, collection, query, where, getDocs, increment, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBcXm5QQaYCCddVXNgGqTBAszdKEK-0PJQ",
@@ -320,11 +253,9 @@ const firebaseConfig = {
   messagingSenderId: "123732555482",
   appId: "1:123732555482:web:ea47c825e0dbb504f597e3"
 };
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-
 const API_URL = "https://api.avcoe.in";
 
 const BRANCHES = ["First Year (FE)", "Computer", "IT", "AI & Data Science", "E&TC", "Mechanical", "Civil", "Electrical", "Other"];
@@ -333,8 +264,18 @@ const ALLOWED = ["html","htm","css","js","json","txt","svg","png","jpg","jpeg","
 const TEXT_EXTS = ["html","htm","css","js","json","txt","svg"];
 const MAX_FILE_BYTES = 5 * 1024 * 1024;
 const MAX_TOTAL_BYTES = 10 * 1024 * 1024;
-
 const $ = (id) => document.getElementById(id);
+
+// theme
+(function () {
+  const root = document.documentElement;
+  let saved = null; try { saved = localStorage.getItem("avcoe-theme"); } catch (e) {}
+  root.dataset.theme = (saved || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+  $("theme").addEventListener("click", () => {
+    const n = root.dataset.theme === "dark" ? "light" : "dark";
+    root.dataset.theme = n; try { localStorage.setItem("avcoe-theme", n); } catch (e) {}
+  });
+})();
 
 function el(tag, attrs = {}, ...kids) {
   const e = document.createElement(tag);
@@ -347,135 +288,87 @@ function el(tag, attrs = {}, ...kids) {
   for (const kid of kids) if (kid) e.append(kid);
   return e;
 }
-
 function msg(id, text, kind) {
-  const b = $(id);
-  b.className = "box";
+  const b = $(id); b.className = "box";
   if (!text) { b.textContent = ""; return; }
-  b.textContent = text;
-  b.classList.add(kind || "status", "show");
+  b.textContent = text; b.classList.add(kind || "status", "show");
 }
-
-function fillSelect(sel, list, placeholder) {
-  sel.innerHTML = "";
-  sel.append(el("option", { value: "", text: placeholder }));
+function fillSelect(sel, list, ph) {
+  sel.innerHTML = ""; sel.append(el("option", { value: "", text: ph }));
   list.forEach((v) => sel.append(el("option", { value: v, text: v })));
 }
-
 function fmtSize(b) {
   b = Number(b) || 0;
   if (b < 1024) return b + " B";
-  if (b < 1024 * 1024) return (b / 1024).toFixed(1) + " KB";
-  return (b / 1024 / 1024).toFixed(2) + " MB";
+  if (b < 1048576) return (b / 1024).toFixed(1) + " KB";
+  return (b / 1048576).toFixed(2) + " MB";
 }
-
 function fmtTime(ts) {
-  return ts && ts.toDate
-    ? ts.toDate().toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" })
-    : "-";
+  return ts && ts.toDate ? ts.toDate().toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }) : "-";
 }
-
-function safeUrl(u) {
-  return typeof u === "string" && /^https:\/\//.test(u) ? u : "#";
-}
-
+function safeUrl(u) { return typeof u === "string" && /^https:\/\//.test(u) ? u : "#"; }
 function fileUrl(base, path) {
-  const b = safeUrl(base);
-  if (b === "#") return "#";
+  const b = safeUrl(base); if (b === "#") return "#";
   return b.replace(/\/+$/, "") + "/" + String(path).split("/").map(encodeURIComponent).join("/");
 }
-
-function makeSlug(name) {
-  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 30).replace(/-+$/g, "");
-}
-
-function extOf(path) {
-  const i = path.lastIndexOf(".");
-  return i > path.lastIndexOf("/") ? path.slice(i + 1).toLowerCase() : "";
-}
-
+function makeSlug(n) { return n.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 30).replace(/-+$/g, ""); }
+function extOf(p) { const i = p.lastIndexOf("."); return i > p.lastIndexOf("/") ? p.slice(i + 1).toLowerCase() : ""; }
 function validPath(p) {
   if (!p || p.length > 200) return false;
   return p.split("/").every((s) => s && s !== "." && s !== ".." && !s.startsWith(".") && /^[A-Za-z0-9._\-~ ()+@]+$/.test(s));
 }
-
-function cleanInputPath(p) {
-  return String(p || "").trim().replace(/\\/g, "/").replace(/^\/+/, "");
-}
-
+function cleanInputPath(p) { return String(p || "").trim().replace(/\\/g, "/").replace(/^\/+/, ""); }
 function textToB64(t) {
-  const bytes = new TextEncoder().encode(t);
-  let bin = "";
-  const CH = 0x8000;
-  for (let i = 0; i < bytes.length; i += CH) {
-    bin += String.fromCharCode.apply(null, bytes.subarray(i, i + CH));
-  }
+  const bytes = new TextEncoder().encode(t); let bin = "";
+  for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
   return btoa(bin);
 }
-
 function b64ToText(b64) {
-  const bin = atob(b64);
-  const bytes = new Uint8Array(bin.length);
+  const bin = atob(b64), bytes = new Uint8Array(bin.length);
   for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
   return new TextDecoder().decode(bytes);
 }
-
-function b64Size(b64) {
-  const pad = b64.endsWith("==") ? 2 : b64.endsWith("=") ? 1 : 0;
-  return Math.floor(b64.length * 3 / 4) - pad;
-}
-
+function b64Size(b) { const pad = b.endsWith("==") ? 2 : b.endsWith("=") ? 1 : 0; return Math.floor(b.length * 3 / 4) - pad; }
 function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
+  return new Promise((res, rej) => {
     const r = new FileReader();
-    r.onload = () => resolve(String(r.result).split(",")[1]);
-    r.onerror = () => reject(new Error("File padh nahi paye: " + file.name));
+    r.onload = () => res(String(r.result).split(",")[1]);
+    r.onerror = () => rej(new Error("Could not read file: " + file.name));
     r.readAsDataURL(file);
   });
 }
-
 function authErr(e) {
   const c = (e && e.code) || "";
   const map = {
-    "auth/email-already-in-use": "Ye email pehle se registered hai, login karo",
-    "auth/invalid-credential": "Email ya password galat hai",
-    "auth/wrong-password": "Email ya password galat hai",
-    "auth/user-not-found": "Email ya password galat hai",
-    "auth/invalid-email": "Email sahi nahi hai",
-    "auth/weak-password": "Password kam se kam 6 akshar ka rakho",
-    "auth/too-many-requests": "Bahut zyada koshish ho gayi, thodi der baad try karo",
-    "auth/network-request-failed": "Internet check karo",
-    "auth/operation-not-allowed": "Firebase mein Email/Password sign-in ON nahi hai"
+    "auth/email-already-in-use": "This email is already registered. Please log in",
+    "auth/invalid-credential": "Incorrect email or password",
+    "auth/wrong-password": "Incorrect email or password",
+    "auth/user-not-found": "Incorrect email or password",
+    "auth/invalid-email": "Enter a valid email address",
+    "auth/weak-password": "Password must be at least 6 characters",
+    "auth/too-many-requests": "Too many attempts. Try again in a while",
+    "auth/network-request-failed": "Check your internet connection",
+    "auth/operation-not-allowed": "Email/Password sign-in is not enabled in Firebase"
   };
   return map[c] || ("Error: " + (c || (e && e.message) || "unknown"));
 }
 
 // ---------- state ----------
-let me = null;
-let registering = false;
-let projects = [];
-let chosen = [];
-let updateSlug = null;
-let mgr = null;
-let edIdx = -1;
-
-fillSelect($("rBranch"), BRANCHES, "Chuno");
-fillSelect($("rYear"), YEARS, "Chuno");
-fillSelect($("pfBranch"), BRANCHES, "Chuno");
-fillSelect($("pfYear"), YEARS, "Chuno");
+let me = null, registering = false, projects = [], chosen = [], updateSlug = null, mgr = null, edIdx = -1;
+fillSelect($("rBranch"), BRANCHES, "Select"); fillSelect($("rYear"), YEARS, "Select");
+fillSelect($("pfBranch"), BRANCHES, "Select"); fillSelect($("pfYear"), YEARS, "Select");
 
 function showView(v) {
   $("loadingView").hidden = v !== "loading";
   $("authView").hidden = v !== "auth";
   $("appView").hidden = v !== "app";
+  $("whoBox").hidden = v !== "app";
 }
 
 // ---------- auth ----------
 function setAuthMode(m) {
-  $("loginForm").hidden = m !== "login";
-  $("regForm").hidden = m !== "register";
-  $("tabLogin").classList.toggle("on", m === "login");
-  $("tabReg").classList.toggle("on", m === "register");
+  $("loginForm").hidden = m !== "login"; $("regForm").hidden = m !== "register";
+  $("tabLogin").classList.toggle("on", m === "login"); $("tabReg").classList.toggle("on", m === "register");
   msg("authMsg", "");
 }
 $("tabLogin").addEventListener("click", () => setAuthMode("login"));
@@ -483,53 +376,38 @@ $("tabReg").addEventListener("click", () => setAuthMode("register"));
 
 $("loginForm").addEventListener("submit", async (ev) => {
   ev.preventDefault();
-  const btn = $("loginBtn");
-  btn.disabled = true;
-  msg("authMsg", "Login ho raha hai...", "status");
+  const btn = $("loginBtn"); btn.disabled = true;
+  msg("authMsg", "Logging in...", "status");
   try {
     await signInWithEmailAndPassword(auth, $("lEmail").value.trim(), $("lPass").value);
     msg("authMsg", "");
-  } catch (e) {
-    msg("authMsg", authErr(e), "error");
-  } finally {
-    btn.disabled = false;
-  }
+  } catch (e) { msg("authMsg", authErr(e), "error"); }
+  finally { btn.disabled = false; }
 });
 
 $("forgotBtn").addEventListener("click", async () => {
   const email = $("lEmail").value.trim();
-  if (!email) { msg("authMsg", "Pehle upar email likho, phir ye dabao", "error"); return; }
+  if (!email) { msg("authMsg", "Enter your email above first, then press this", "error"); return; }
   try {
     await sendPasswordResetEmail(auth, email);
-    msg("authMsg", "Password reset ka link email par bhej diya (spam folder bhi dekho)", "ok");
-  } catch (e) {
-    msg("authMsg", authErr(e), "error");
-  }
+    msg("authMsg", "Password reset link sent to your email (check spam too)", "ok");
+  } catch (e) { msg("authMsg", authErr(e), "error"); }
 });
 
 $("regForm").addEventListener("submit", async (ev) => {
   ev.preventDefault();
-  const name = $("rName").value.trim();
-  const email = $("rEmail").value.trim();
-  const pass = $("rPass").value;
-  const branch = $("rBranch").value;
-  const year = $("rYear").value;
-  const roll = $("rRoll").value.trim();
+  const name = $("rName").value.trim(), email = $("rEmail").value.trim(), pass = $("rPass").value;
+  const branch = $("rBranch").value, year = $("rYear").value, roll = $("rRoll").value.trim();
+  if (name.length < 2) return msg("authMsg", "Enter your name", "error");
+  if (pass.length < 6) return msg("authMsg", "Password must be at least 6 characters", "error");
+  if (!branch || !year) return msg("authMsg", "Select your branch and year", "error");
 
-  if (name.length < 2) return msg("authMsg", "Naam likho", "error");
-  if (pass.length < 6) return msg("authMsg", "Password kam se kam 6 akshar ka rakho", "error");
-  if (!branch || !year) return msg("authMsg", "Branch aur year chuno", "error");
-
-  const btn = $("regBtn");
-  btn.disabled = true;
-  registering = true;
-  msg("authMsg", "Account ban raha hai...", "status");
+  const btn = $("regBtn"); btn.disabled = true; registering = true;
+  msg("authMsg", "Creating your account...", "status");
   try {
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
     await updateProfile(cred.user, { displayName: name });
-    await setDoc(doc(db, "deploy_users", cred.user.uid), {
-      name, email, branch, year, roll, role: "student", createdAt: serverTimestamp()
-    });
+    await setDoc(doc(db, "deploy_users", cred.user.uid), { name, email, branch, year, roll, role: "student", createdAt: serverTimestamp() });
     registering = false;
     await enter(cred.user);
   } catch (e) {
@@ -537,20 +415,14 @@ $("regForm").addEventListener("submit", async (ev) => {
     msg("authMsg", authErr(e), "error");
     if (auth.currentUser) {
       try { await signOut(auth); } catch (x) {}
-      msg("authMsg", "Account ban gaya par profile save nahi hua (" + ((e && (e.code || e.message)) || "error") + "). Firestore rules check karo, phir Login karo.", "error");
+      msg("authMsg", "Account created but profile was not saved (" + ((e && (e.code || e.message)) || "error") + "). Check Firestore rules, then log in.", "error");
     }
-  } finally {
-    btn.disabled = false;
-  }
+  } finally { btn.disabled = false; }
 });
 
 onAuthStateChanged(auth, async (user) => {
   if (registering) return;
-  if (!user) {
-    me = null;
-    showView("auth");
-    return;
-  }
+  if (!user) { me = null; showView("auth"); return; }
   await enter(user);
 });
 
@@ -559,13 +431,7 @@ async function enter(user) {
     const ref = doc(db, "deploy_users", user.uid);
     let snap = await getDoc(ref);
     if (!snap.exists()) {
-      await setDoc(ref, {
-        name: user.displayName || (user.email || "student").split("@")[0],
-        email: user.email || "",
-        branch: "", year: "", roll: "",
-        role: "student",
-        createdAt: serverTimestamp()
-      });
+      await setDoc(ref, { name: user.displayName || (user.email || "student").split("@")[0], email: user.email || "", branch: "", year: "", roll: "", role: "student", createdAt: serverTimestamp() });
       snap = await getDoc(ref);
     }
     me = { uid: user.uid, ...snap.data() };
@@ -573,10 +439,9 @@ async function enter(user) {
     console.error(e);
     try { await signOut(auth); } catch (x) {}
     showView("auth");
-    msg("authMsg", "Profile load nahi hua (" + (e.code || e.message) + "). Firestore rules check karo.", "error");
+    msg("authMsg", "Could not load profile (" + (e.code || e.message) + "). Check Firestore rules.", "error");
     return;
   }
-
   refreshHeader();
   $("pfEmail").value = me.email || user.email || "";
   $("pfName").value = me.name || "";
@@ -584,20 +449,15 @@ async function enter(user) {
   $("pfYear").value = me.year || "";
   $("pfRoll").value = me.roll || "";
   $("adminLink").hidden = me.role !== "admin";
-
-  resetDeploy();
-  closeManager(true);
-  showView("app");
-  switchTab("deploy");
-  loadProjects();
+  resetDeploy(); closeManager(true);
+  showView("app"); switchTab("projects");
 }
 
 function refreshHeader() {
   $("uName").textContent = me.name || "Student";
-  $("uMeta").textContent =
-    [me.branch, me.year, me.roll ? "Roll " + me.roll : ""].filter(Boolean).join(" · ") || me.email || "";
+  $("uAva").textContent = ((me.name || "S").trim()[0] || "S").toUpperCase();
+  $("uMeta").textContent = [me.branch, me.year, me.roll ? "Roll " + me.roll : ""].filter(Boolean).join(" · ") || me.email || "";
 }
-
 $("logoutBtn").addEventListener("click", async () => { await signOut(auth); });
 
 // ---------- tabs ----------
@@ -608,164 +468,112 @@ function switchTab(t) {
   });
   if (t === "projects") loadProjects();
 }
-["deploy", "projects", "profile"].forEach((x) =>
-  $("nav-" + x).addEventListener("click", () => switchTab(x))
-);
+["deploy", "projects", "profile"].forEach((x) => $("nav-" + x).addEventListener("click", () => switchTab(x)));
 
 // ---------- profile ----------
 $("pfSave").addEventListener("click", async () => {
   const name = $("pfName").value.trim();
-  if (name.length < 2) return msg("pfMsg", "Naam likho", "error");
-  const data = {
-    name,
-    branch: $("pfBranch").value,
-    year: $("pfYear").value,
-    roll: $("pfRoll").value.trim()
-  };
+  if (name.length < 2) return msg("pfMsg", "Enter your name", "error");
+  const data = { name, branch: $("pfBranch").value, year: $("pfYear").value, roll: $("pfRoll").value.trim() };
   try {
     await updateDoc(doc(db, "deploy_users", me.uid), data);
     if (auth.currentUser) await updateProfile(auth.currentUser, { displayName: name });
-    me = { ...me, ...data };
-    refreshHeader();
-    msg("pfMsg", "Profile save ho gaya", "ok");
-  } catch (e) {
-    msg("pfMsg", "Save nahi hua: " + (e.code || e.message), "error");
-  }
+    me = { ...me, ...data }; refreshHeader();
+    msg("pfMsg", "Profile saved", "ok");
+  } catch (e) { msg("pfMsg", "Could not save: " + (e.code || e.message), "error"); }
 });
 
-// ---------- projects list ----------
+// ---------- projects ----------
 async function loadProjects() {
   if (!me) return;
   try {
-    const q = query(collection(db, "deploy_projects"), where("ownerUid", "==", me.uid));
-    const snap = await getDocs(q);
-    projects = snap.docs
-      .map((d) => ({ id: d.id, ...d.data() }))
-      .sort((a, b) =>
-        ((b.updatedAt && b.updatedAt.toMillis && b.updatedAt.toMillis()) || 0) -
-        ((a.updatedAt && a.updatedAt.toMillis && a.updatedAt.toMillis()) || 0));
+    const snap = await getDocs(query(collection(db, "deploy_projects"), where("ownerUid", "==", me.uid)));
+    const ms = (t) => (t && t.toMillis && t.toMillis()) || 0;
+    projects = snap.docs.map((d) => ({ id: d.id, ...d.data() })).sort((a, b) => ms(b.updatedAt) - ms(a.updatedAt));
     renderProjects();
   } catch (e) {
     console.error(e);
-    const box = $("projList");
-    box.innerHTML = "";
-    box.append(el("div", { class: "empty", text: "Projects load nahi hue: " + (e.code || e.message) }));
+    const box = $("projList"); box.innerHTML = "";
+    box.append(el("div", { class: "empty", text: "Could not load projects: " + (e.code || e.message) }));
   }
 }
 
 function renderProjects() {
   $("stProjects").textContent = projects.length;
   $("stDeploys").textContent = projects.reduce((s, p) => s + (Number(p.deployCount) || 0), 0);
-
-  const box = $("projList");
-  box.innerHTML = "";
+  $("stStorage").textContent = fmtSize(projects.reduce((s, p) => s + (Number(p.totalBytes) || 0), 0));
+  const box = $("projList"); box.innerHTML = "";
   if (!projects.length) {
-    box.append(el("div", { class: "empty", text: "Abhi koi project nahi. 'Naya Deploy' tab se pehla project deploy karo." }));
+    box.append(el("div", { class: "empty", text: "No projects yet. Open the New deploy tab to ship your first site." }));
     return;
   }
-
   for (const p of projects) {
     const slug = p.slug || p.id;
     box.append(el("div", { class: "proj" },
-      el("h3", { text: slug }),
-      el("a", { href: safeUrl(p.url), target: "_blank", rel: "noopener", text: p.url || "" }),
-      el("div", {
-        class: "m",
-        text: (p.fileCount || 0) + " files · " + fmtSize(p.totalBytes) + " · " +
-              (p.deployCount || 1) + " deploy · Update: " + fmtTime(p.updatedAt)
-      }),
+      el("div", { class: "ph" },
+        el("div", { class: "pav", text: slug[0].toUpperCase() }),
+        el("div", {}, el("h3", { text: slug }), el("a", { href: safeUrl(p.url), target: "_blank", rel: "noopener", text: (p.url || "").replace(/^https:\/\//, "") }))
+      ),
+      el("div", { class: "m", text: (p.fileCount || 0) + " files · " + fmtSize(p.totalBytes) + " · " + (p.deployCount || 1) + " deploys · " + fmtTime(p.updatedAt) }),
       el("div", { class: "acts" },
         el("button", { class: "sm pri", type: "button", text: "Files / Edit", onclick: () => openManager(slug) }),
-        el("button", { class: "sm", type: "button", text: "Update karo (poora)", onclick: () => startUpdate(slug) })
+        el("button", { class: "sm", type: "button", text: "Redeploy all", onclick: () => startUpdate(slug) })
       )
     ));
   }
 }
 
-// ---------- deploy (naya / poora update) ----------
+// ---------- deploy ----------
 const pname = $("pname"), fileInput = $("file"), goBtn = $("go");
-
 function updateState() {
   const slug = makeSlug(pname.value);
   $("slugPreview").textContent = slug || "...";
   goBtn.disabled = !(slug.length >= 3 && chosen.length > 0);
 }
-
-function hideBoxes() {
-  ["status", "error", "ok"].forEach((id) => $(id).classList.remove("show"));
-}
+function hideBoxes() { ["status", "error", "ok"].forEach((id) => $(id).classList.remove("show")); }
 function showStatus(m) { hideBoxes(); $("status").textContent = m; $("status").classList.add("show"); }
 function showError(m) { hideBoxes(); $("error").textContent = m; $("error").classList.add("show"); }
 
 function resetDeploy() {
-  updateSlug = null;
-  pname.value = "";
-  pname.readOnly = false;
-  fileInput.value = "";
-  chosen = [];
-  $("fileinfo").textContent = "";
-  $("updBanner").hidden = true;
-  hideBoxes();
-  updateState();
+  updateSlug = null; pname.value = ""; pname.readOnly = false; fileInput.value = ""; chosen = [];
+  $("fileinfo").textContent = ""; $("updBanner").hidden = true; hideBoxes(); updateState();
 }
-
 function startUpdate(slug) {
-  resetDeploy();
-  updateSlug = slug;
-  pname.value = slug;
-  pname.readOnly = true;
-  $("updText").textContent = "Update mode: " + slug + ". Nayi files purani saari files ko replace kar dengi.";
-  $("updBanner").hidden = false;
-  updateState();
-  switchTab("deploy");
+  resetDeploy(); updateSlug = slug; pname.value = slug; pname.readOnly = true;
+  $("updText").textContent = "Update mode: " + slug + ". New files will replace all existing files.";
+  $("updBanner").hidden = false; updateState(); switchTab("deploy");
 }
 $("updCancel").addEventListener("click", resetDeploy);
-
 pname.addEventListener("input", updateState);
 
 fileInput.addEventListener("change", () => {
-  chosen = Array.from(fileInput.files || []);
-  hideBoxes();
+  chosen = Array.from(fileInput.files || []); hideBoxes();
   const total = chosen.reduce((s, f) => s + f.size, 0);
-  $("fileinfo").textContent = chosen.length
-    ? chosen.length + " file(s) chuni (" + fmtSize(total) + "): " + chosen.map((f) => f.name).join(", ")
-    : "";
+  $("fileinfo").textContent = chosen.length ? chosen.length + " file(s) selected (" + fmtSize(total) + "): " + chosen.map((f) => f.name).join(", ") : "";
   updateState();
 });
 
 async function collectZip(file) {
-  if (file.size > MAX_TOTAL_BYTES) throw new Error("ZIP 10 MB se badi hai");
-  if (typeof JSZip === "undefined") throw new Error("ZIP library load nahi hui. Internet check karke page refresh karo");
-
+  if (file.size > MAX_TOTAL_BYTES) throw new Error("ZIP is larger than 10 MB");
+  if (typeof JSZip === "undefined") throw new Error("ZIP library failed to load. Check your internet and refresh the page");
   const zip = await JSZip.loadAsync(file);
   let list = [];
   zip.forEach((p, entry) => {
-    if (entry.dir) return;
-    if (p.startsWith("__MACOSX/")) return;
-    if (p.split("/").some((s) => s.startsWith("."))) return;
+    if (entry.dir || p.startsWith("__MACOSX/") || p.split("/").some((s) => s.startsWith("."))) return;
     list.push({ path: p, entry });
   });
-
-  if (list.length === 0) throw new Error("ZIP khaali hai");
-
+  if (!list.length) throw new Error("The ZIP is empty");
   if (!list.some((x) => x.path === "index.html")) {
     const first = list[0].path.split("/")[0];
-    if (list.every((x) => x.path.startsWith(first + "/"))) {
-      list = list.map((x) => ({ path: x.path.slice(first.length + 1), entry: x.entry }));
-    }
+    if (list.every((x) => x.path.startsWith(first + "/"))) list = list.map((x) => ({ path: x.path.slice(first.length + 1), entry: x.entry }));
   }
-
-  let skipped = 0;
-  const files = [];
+  let skipped = 0; const files = [];
   for (const x of list) {
     if (!ALLOWED.includes(extOf(x.path))) { skipped++; continue; }
     const data = await x.entry.async("base64");
     files.push({ path: x.path, data, size: b64Size(data) });
   }
-
-  if (!files.some((f) => f.path === "index.html")) {
-    throw new Error("ZIP ke main folder mein index.html (chhote akshar) nahi mili");
-  }
+  if (!files.some((f) => f.path === "index.html")) throw new Error("No index.html (lowercase) found in the main folder of the ZIP");
   return { files, skipped };
 }
 
@@ -774,316 +582,181 @@ async function collectFiles(list) {
     const ext = extOf(list[0].name);
     if (ext === "zip") return collectZip(list[0]);
     if (ext === "html" || ext === "htm") {
-      if (list[0].size > MAX_FILE_BYTES) throw new Error("HTML file 5 MB se badi hai");
+      if (list[0].size > MAX_FILE_BYTES) throw new Error("HTML file is larger than 5 MB");
       const data = await fileToBase64(list[0]);
       return { files: [{ path: "index.html", data, size: b64Size(data) }], skipped: 0 };
     }
   }
-
-  if (list.some((f) => extOf(f.name) === "zip")) {
-    throw new Error("ZIP ke saath doosri files mat chuno. Ya sirf ZIP chuno, ya sirf alag files");
-  }
-
-  let total = 0;
-  const files = [];
-  const names = new Set();
+  if (list.some((f) => extOf(f.name) === "zip")) throw new Error("Do not mix a ZIP with other files. Choose only the ZIP, or only separate files");
+  let total = 0; const files = [], names = new Set();
   for (const file of list) {
     const ext = extOf(file.name);
-    if (!ALLOWED.includes(ext)) throw new Error("Ye file type allowed nahi: " + file.name);
-    if (!validPath(file.name)) throw new Error("File ka naam sahi nahi: " + file.name + " (sirf letters, numbers, . - _ aur space)");
-    if (file.size > MAX_FILE_BYTES) throw new Error("File 5 MB se badi hai: " + file.name);
-    if (names.has(file.name.toLowerCase())) throw new Error("Same naam ki do files: " + file.name);
+    if (!ALLOWED.includes(ext)) throw new Error("File type not allowed: " + file.name);
+    if (!validPath(file.name)) throw new Error("Invalid file name: " + file.name + " (letters, numbers, . - _ and spaces only)");
+    if (file.size > MAX_FILE_BYTES) throw new Error("File is larger than 5 MB: " + file.name);
+    if (names.has(file.name.toLowerCase())) throw new Error("Two files share the same name: " + file.name);
     names.add(file.name.toLowerCase());
     total += file.size;
-    if (total > MAX_TOTAL_BYTES) throw new Error("Total size 10 MB se zyada hai");
+    if (total > MAX_TOTAL_BYTES) throw new Error("Total size is over 10 MB");
     const data = await fileToBase64(file);
     files.push({ path: file.name, data, size: b64Size(data) });
   }
-
   if (!files.some((f) => f.path === "index.html")) {
     const htmls = files.filter((f) => ["html", "htm"].includes(extOf(f.path)));
     if (htmls.length === 1) htmls[0].path = "index.html";
-    else throw new Error(htmls.length
-      ? "Kaunsi file index hai? Ek HTML file ka naam index.html rakho (chhote akshar) aur dobara chuno"
-      : "Ek HTML file chahiye (wo index.html ban jayegi)");
+    else throw new Error(htmls.length ? "Which file is the home page? Rename one HTML file to index.html (lowercase) and choose again" : "You need one HTML file (it will become index.html)");
   }
   return { files, skipped: 0 };
 }
 
 async function saveRecord(data) {
   const payload = {
-    slug: data.slug,
-    ownerUid: me.uid,
-    ownerName: me.name || "",
-    branch: me.branch || "",
-    year: me.year || "",
-    roll: me.roll || "",
-    url: data.live_url,
-    fileCount: data.file_count,
-    totalBytes: data.total_bytes,
-    files: data.file_list,
-    updatedAt: serverTimestamp(),
-    deployCount: increment(1)
+    slug: data.slug, ownerUid: me.uid, ownerName: me.name || "", branch: me.branch || "", year: me.year || "", roll: me.roll || "",
+    url: data.live_url, fileCount: data.file_count, totalBytes: data.total_bytes, files: data.file_list,
+    updatedAt: serverTimestamp(), deployCount: increment(1)
   };
   if (!data.updated) payload.createdAt = serverTimestamp();
-
   await setDoc(doc(db, "deploy_projects", data.slug), payload, { merge: true });
   await addDoc(collection(db, "deploy_logs"), {
-    slug: data.slug,
-    ownerUid: me.uid,
-    ownerName: me.name || "",
-    branch: me.branch || "",
-    year: me.year || "",
-    fileCount: data.file_count,
-    totalBytes: data.total_bytes,
-    type: data.mode === "edit" ? "edit" : (data.updated ? "update" : "new"),
-    at: serverTimestamp()
+    slug: data.slug, ownerUid: me.uid, ownerName: me.name || "", branch: me.branch || "", year: me.year || "",
+    fileCount: data.file_count, totalBytes: data.total_bytes,
+    type: data.mode === "edit" ? "edit" : (data.updated ? "update" : "new"), at: serverTimestamp()
   });
 }
 
 function showSuccess(data, skipped, saved) {
   hideBoxes();
-  const ok = $("ok");
-  ok.innerHTML = "";
-  ok.append(el("div", { text: data.updated ? "Website update ho gayi!" : "Website live ho gayi!" }));
+  const ok = $("ok"); ok.innerHTML = "";
+  ok.append(el("div", { text: data.updated ? "Your site was updated!" : "Your site is live!" }));
   ok.append(el("a", { href: safeUrl(data.live_url), target: "_blank", rel: "noopener", text: data.live_url }));
-  ok.append(el("div", {
-    style: "margin-top:8px;font-size:12px",
-    text: "Pehli baar khulne mein 10-30 second lag sakte hain." +
-          (skipped ? " " + skipped + " file(s) skip hui (type allowed nahi)." : "") +
-          " Files badalne ke liye 'Mere Projects' mein 'Files / Edit' dabao."
-  }));
-  if (!saved) {
-    ok.append(el("div", {
-      style: "margin-top:8px;font-size:12px;color:#ffe3a0",
-      text: "Site live hai, par project record save nahi hua (Mere Projects mein nahi dikhega). Firestore rules check karo."
-    }));
-  }
-  const copy = el("button", { class: "sm", type: "button", style: "margin-top:10px", text: "Link copy karo" });
-  copy.addEventListener("click", () => {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(data.live_url).then(() => { copy.textContent = "Copy ho gaya"; });
-    }
-  });
-  ok.append(copy);
-  ok.classList.add("show");
+  ok.append(el("div", { style: "margin-top:8px;font-size:12px", text: "The first load can take 10-30 seconds." + (skipped ? " " + skipped + " file(s) skipped (type not allowed)." : "") + " To change files later, open Projects and press Files / Edit." }));
+  if (!saved) ok.append(el("div", { style: "margin-top:8px;font-size:12px", text: "The site is live, but the project record was not saved (it will not show in Projects). Check Firestore rules." }));
+  const copy = el("button", { class: "sm", type: "button", style: "margin-top:10px", text: "Copy link" });
+  copy.addEventListener("click", () => { if (navigator.clipboard) navigator.clipboard.writeText(data.live_url).then(() => { copy.textContent = "Copied"; }); });
+  ok.append(copy); ok.classList.add("show");
 }
 
 goBtn.addEventListener("click", async () => {
   if (!auth.currentUser || !me) return;
-  if (updateSlug && !confirm("Ye purani saari files replace kar dega. Aage badhna hai?")) return;
-
+  if (updateSlug && !confirm("This will replace all existing files. Continue?")) return;
   goBtn.disabled = true;
   try {
-    showStatus("Files taiyaar ho rahi hain...");
+    showStatus("Preparing files...");
     const { files, skipped } = await collectFiles(chosen);
-
-    showStatus("Deploy ho raha hai (" + files.length + " files)... 10-30 second lag sakte hain");
+    showStatus("Deploying " + files.length + " file(s)... this can take 10-30 seconds");
     const token = await auth.currentUser.getIdToken();
     const res = await fetch(API_URL + "/deploy", {
       method: "POST",
       headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
-      body: JSON.stringify({
-        name: pname.value,
-        files: files.map((f) => ({ path: f.path, data: f.data }))
-      })
+      body: JSON.stringify({ name: pname.value, files: files.map((f) => ({ path: f.path, data: f.data })) })
     });
-
-    let data;
-    try { data = await res.json(); } catch (e) { data = null; }
-
+    let data; try { data = await res.json(); } catch (e) { data = null; }
     if (!data || !data.success) {
-      const m = data && data.message ? data.message : "Deploy fail hua (server ne jawab nahi diya)";
-      const detail = data && data.detail ? "\nDetail: " + data.detail : "";
-      showError(m + detail);
+      showError((data && data.message ? data.message : "Deploy failed (no response from server)") + (data && data.detail ? "\nDetail: " + data.detail : ""));
       return;
     }
-
     let saved = true;
     try { await saveRecord(data); } catch (e) { console.error(e); saved = false; }
-
     showSuccess(data, skipped, saved);
-  } catch (err) {
-    showError(err && err.message ? err.message : "Kuch galat ho gaya");
-  } finally {
-    updateState();
-  }
+  } catch (err) { showError(err && err.message ? err.message : "Something went wrong"); }
+  finally { updateState(); }
 });
 
 // ---------- file manager ----------
-function freshFile(p) {
-  return { path: p.p, origPath: p.p, size: p.s, text: null, edited: false, newData: null, isNew: false, deleted: false };
-}
-
-function fileChanged(f) {
-  return f.deleted || f.isNew || f.edited || !!f.newData || f.path !== f.origPath;
-}
+function freshFile(p) { return { path: p.p, origPath: p.p, size: p.s, text: null, edited: false, newData: null, isNew: false, deleted: false }; }
+function fileChanged(f) { return f.deleted || f.isNew || f.edited || !!f.newData || f.path !== f.origPath; }
 
 function openManager(slug) {
   const p = projects.find((x) => (x.slug || x.id) === slug);
   if (!p) return;
-  mgr = {
-    slug,
-    url: p.url,
-    files: (p.files || []).map(freshFile).sort((a, b) => a.path.localeCompare(b.path))
-  };
-  $("projList").hidden = true;
-  $("mgrView").hidden = false;
+  mgr = { slug, url: p.url, files: (p.files || []).map(freshFile).sort((a, b) => a.path.localeCompare(b.path)) };
+  $("projList").hidden = true; $("statsRow").hidden = true; $("mgrView").hidden = false;
   $("mgrSlug").textContent = slug;
-  const link = $("mgrUrl");
-  link.href = safeUrl(p.url);
-  link.textContent = p.url || "";
-  $("addFolder").value = "";
-  msg("mgrMsg", "");
-  renderFiles();
+  const link = $("mgrUrl"); link.href = safeUrl(p.url); link.textContent = p.url || "";
+  $("addFolder").value = ""; msg("mgrMsg", ""); renderFiles();
 }
-
 function closeManager(force) {
   if (!mgr) return;
-  if (!force && mgr.files.some(fileChanged) && !confirm("Pending changes hain, discard karke wapas jao?")) return;
-  mgr = null;
-  $("mgrView").hidden = true;
-  $("projList").hidden = false;
+  if (!force && mgr.files.some(fileChanged) && !confirm("You have pending changes. Discard them and go back?")) return;
+  mgr = null; $("mgrView").hidden = true; $("projList").hidden = false; $("statsRow").hidden = false;
 }
 $("mgrBack").addEventListener("click", () => closeManager(false));
 
 $("mgrDiscard").addEventListener("click", () => {
-  if (!mgr || !confirm("Saare pending changes hata du?")) return;
+  if (!mgr || !confirm("Discard all pending changes?")) return;
   const p = projects.find((x) => (x.slug || x.id) === mgr.slug);
   mgr.files = ((p && p.files) || []).map(freshFile).sort((a, b) => a.path.localeCompare(b.path));
-  msg("mgrMsg", "");
-  renderFiles();
+  msg("mgrMsg", ""); renderFiles();
 });
 
 function renderFiles() {
-  const box = $("fileRows");
-  box.innerHTML = "";
-
-  if (!mgr.files.length) {
-    box.append(el("div", { class: "empty", text: "Is project ki file list available nahi. 'Update karo (poora)' se files ek baar dobara upload karo." }));
-  }
-
+  const box = $("fileRows"); box.innerHTML = "";
+  if (!mgr.files.length) box.append(el("div", { class: "empty", text: "The file list is not available for this project. Use Redeploy all to upload the files once more." }));
   mgr.files.forEach((f, i) => {
     const tags = [];
-    if (f.isNew) tags.push("NAYI");
-    else if (f.edited || f.newData) tags.push("BADLI HUI");
-    if (!f.isNew && f.path !== f.origPath) tags.push("RENAME: " + f.origPath + " →");
-    if (f.deleted) tags.push("DELETE hogi");
-
+    if (f.isNew) tags.push("NEW"); else if (f.edited || f.newData) tags.push("MODIFIED");
+    if (!f.isNew && f.path !== f.origPath) tags.push("RENAMED from " + f.origPath);
+    if (f.deleted) tags.push("WILL BE DELETED");
     const live = !f.isNew && !f.edited && !f.newData && !f.deleted;
-    const nameNode = live
-      ? el("a", { href: fileUrl(mgr.url, f.origPath), target: "_blank", rel: "noopener", text: f.path })
-      : el("span", { text: f.path });
-
+    const nameNode = live ? el("a", { href: fileUrl(mgr.url, f.origPath), target: "_blank", rel: "noopener", text: f.path }) : el("span", { text: f.path });
     const acts = el("div", { class: "mact" });
-    if (!f.deleted && TEXT_EXTS.includes(extOf(f.path))) {
-      acts.append(el("button", { class: "sm", type: "button", text: "Edit", onclick: () => editFile(i) }));
-    }
-    if (!f.deleted) {
-      acts.append(el("button", { class: "sm", type: "button", text: "Rename", onclick: () => renameFile(i) }));
-    }
-    acts.append(el("button", {
-      class: "sm", type: "button",
-      text: f.deleted ? "Undo" : "Delete",
-      onclick: () => deleteFile(i)
-    }));
-
+    if (!f.deleted && TEXT_EXTS.includes(extOf(f.path))) acts.append(el("button", { class: "sm", type: "button", text: "Edit", onclick: () => editFile(i) }));
+    if (!f.deleted) acts.append(el("button", { class: "sm", type: "button", text: "Rename", onclick: () => renameFile(i) }));
+    acts.append(el("button", { class: "sm", type: "button", text: f.deleted ? "Undo" : "Delete", onclick: () => deleteFile(i) }));
     box.append(el("div", { class: "mrow" + (f.deleted ? " del" : "") },
-      el("div", { class: "mname" }, nameNode, tags.length ? el("small", { text: tags.join(" · ") }) : null),
-      el("span", { class: "msz", text: fmtSize(f.size) }),
-      acts
-    ));
+      el("div", { class: "mname mono" }, nameNode, tags.length ? el("small", { text: tags.join(" · ") }) : null),
+      el("span", { class: "msz", text: fmtSize(f.size) }), acts));
   });
-
   const n = mgr.files.filter(fileChanged).length;
   $("pendingBar").hidden = n === 0;
-  $("pendingText").textContent = n + " change(s) pending. Abhi live nahi hue.";
+  $("pendingText").textContent = n + " pending change(s). Not live yet.";
 }
 
 function deleteFile(i) {
   const f = mgr.files[i];
-  if (f.isNew) mgr.files.splice(i, 1);
-  else f.deleted = !f.deleted;
+  if (f.isNew) mgr.files.splice(i, 1); else f.deleted = !f.deleted;
   renderFiles();
 }
-
 function renameFile(i) {
   const f = mgr.files[i];
-  const nv = prompt("Naya naam (folder ke saath, jaise css/style.css):", f.path);
+  const nv = prompt("New name (include folder if needed, e.g. css/style.css):", f.path);
   if (nv === null) return;
   const np = cleanInputPath(nv);
-  if (!validPath(np)) return alert("Naam sahi nahi hai. Sirf letters, numbers, . - _ ( ) + @ aur space chalenge");
-  if (extOf(np) !== extOf(f.path)) return alert("Extension nahi badal sakte (jaise .css ko .css hi rakho)");
-  if (mgr.files.some((x, j) => j !== i && !x.deleted && x.path.toLowerCase() === np.toLowerCase())) {
-    return alert("Is naam ki file pehle se hai");
-  }
-  f.path = np;
-  renderFiles();
+  if (!validPath(np)) return alert("Invalid name. Only letters, numbers, . - _ ( ) + @ and spaces are allowed");
+  if (extOf(np) !== extOf(f.path)) return alert("You cannot change the extension (keep .css as .css)");
+  if (mgr.files.some((x, j) => j !== i && !x.deleted && x.path.toLowerCase() === np.toLowerCase())) return alert("A file with this name already exists");
+  f.path = np; renderFiles();
 }
 
 async function editFile(i) {
-  const f = mgr.files[i];
-  let text = f.text;
-
+  const f = mgr.files[i]; let text = f.text;
   if (text === null) {
-    if (f.newData) {
-      text = b64ToText(f.newData);
-    } else {
-      msg("mgrMsg", "File khul rahi hai...", "status");
+    if (f.newData) text = b64ToText(f.newData);
+    else {
+      msg("mgrMsg", "Opening file...", "status");
       try {
         const token = await auth.currentUser.getIdToken();
-        const res = await fetch(
-          API_URL + "/file?slug=" + encodeURIComponent(mgr.slug) + "&path=" + encodeURIComponent(f.origPath),
-          { headers: { "Authorization": "Bearer " + token } }
-        );
-        let data = null;
-        try { data = await res.json(); } catch (e) {}
-        if (!data || !data.success) {
-          msg("mgrMsg", (data && data.message) || "File nahi khul payi", "error");
-          return;
-        }
-        text = data.text;
-        f.text = text;
-        msg("mgrMsg", "");
-      } catch (e) {
-        msg("mgrMsg", "File nahi khul payi: " + (e.message || e), "error");
-        return;
-      }
+        const res = await fetch(API_URL + "/file?slug=" + encodeURIComponent(mgr.slug) + "&path=" + encodeURIComponent(f.origPath), { headers: { "Authorization": "Bearer " + token } });
+        let data = null; try { data = await res.json(); } catch (e) {}
+        if (!data || !data.success) { msg("mgrMsg", (data && data.message) || "Could not open the file", "error"); return; }
+        text = data.text; f.text = text; msg("mgrMsg", "");
+      } catch (e) { msg("mgrMsg", "Could not open the file: " + (e.message || e), "error"); return; }
     }
   }
-
-  edIdx = i;
-  $("edPath").textContent = f.path;
-  $("edText").value = text;
-  $("editor").hidden = false;
-  $("edText").focus();
+  edIdx = i; $("edPath").textContent = f.path; $("edText").value = text; $("editor").hidden = false; $("edText").focus();
 }
 
 $("edSave").addEventListener("click", () => {
-  const f = mgr && mgr.files[edIdx];
-  if (!f) return;
-  let t = $("edText").value;
-  if (t === "") t = "\n";
+  const f = mgr && mgr.files[edIdx]; if (!f) return;
+  let t = $("edText").value; if (t === "") t = "\n";
   const original = f.text === null && f.newData ? b64ToText(f.newData) : f.text;
-  if (t !== original || f.isNew) {
-    f.text = t;
-    f.edited = true;
-    f.size = new TextEncoder().encode(t).length;
-  }
-  $("editor").hidden = true;
-  edIdx = -1;
-  renderFiles();
+  if (t !== original || f.isNew) { f.text = t; f.edited = true; f.size = new TextEncoder().encode(t).length; }
+  $("editor").hidden = true; edIdx = -1; renderFiles();
 });
-
-$("edCancel").addEventListener("click", () => {
-  $("editor").hidden = true;
-  edIdx = -1;
-});
+$("edCancel").addEventListener("click", () => { $("editor").hidden = true; edIdx = -1; });
 
 function defaultContent(ext) {
-  if (ext === "html" || ext === "htm") {
-    return '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<title>Naya page</title>\n</head>\n<body>\n\n</body>\n</html>\n';
-  }
+  if (ext === "html" || ext === "htm") return '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<title>New page</title>\n</head>\n<body>\n\n</body>\n</html>\n';
   if (ext === "css") return "/* styles */\n";
   if (ext === "js") return "// code\n";
   if (ext === "json") return "{}\n";
@@ -1091,64 +764,36 @@ function defaultContent(ext) {
 }
 
 $("newFileBtn").addEventListener("click", () => {
-  const nv = prompt("Nayi file ka naam (folder ke saath, jaise admin.html ya css/style.css):", "");
+  const nv = prompt("New file name (include folder if needed, e.g. admin.html or css/style.css):", "");
   if (nv === null) return;
-  const np = cleanInputPath(nv);
-  const ext = extOf(np);
-  if (!validPath(np) || !TEXT_EXTS.includes(ext)) {
-    return alert("Naam sahi nahi, ya type allowed nahi. Chalega: .html .css .js .json .txt .svg");
-  }
-  if (mgr.files.some((x) => !x.deleted && x.path.toLowerCase() === np.toLowerCase())) {
-    return alert("Is naam ki file pehle se hai");
-  }
+  const np = cleanInputPath(nv), ext = extOf(np);
+  if (!validPath(np) || !TEXT_EXTS.includes(ext)) return alert("Invalid name or type. Allowed: .html .css .js .json .txt .svg");
+  if (mgr.files.some((x) => !x.deleted && x.path.toLowerCase() === np.toLowerCase())) return alert("A file with this name already exists");
   const text = defaultContent(ext);
-  mgr.files.push({
-    path: np, origPath: np, size: new TextEncoder().encode(text).length,
-    text, edited: true, newData: null, isNew: true, deleted: false
-  });
+  mgr.files.push({ path: np, origPath: np, size: new TextEncoder().encode(text).length, text, edited: true, newData: null, isNew: true, deleted: false });
   mgr.files.sort((a, b) => a.path.localeCompare(b.path));
-  renderFiles();
-  editFile(mgr.files.findIndex((x) => x.path === np));
+  renderFiles(); editFile(mgr.files.findIndex((x) => x.path === np));
 });
 
 $("addFiles").addEventListener("change", async (ev) => {
-  const list = Array.from(ev.target.files || []);
-  ev.target.value = "";
+  const list = Array.from(ev.target.files || []); ev.target.value = "";
   if (!mgr || !list.length) return;
-
   const folder = cleanInputPath($("addFolder").value).replace(/\/+$/, "");
-  const problems = [];
-  let added = 0;
-
+  const problems = []; let added = 0;
   for (const file of list) {
-    const ext = extOf(file.name);
-    const path = folder ? folder + "/" + file.name : file.name;
-    if (!ALLOWED.includes(ext)) { problems.push(file.name + ": type allowed nahi"); continue; }
-    if (!validPath(path)) { problems.push(file.name + ": naam/folder sahi nahi"); continue; }
-    if (file.size > MAX_FILE_BYTES) { problems.push(file.name + ": 5 MB se badi"); continue; }
-
-    let data;
-    try { data = await fileToBase64(file); } catch (e) { problems.push(file.name + ": padh nahi payi"); continue; }
+    const ext = extOf(file.name), path = folder ? folder + "/" + file.name : file.name;
+    if (!ALLOWED.includes(ext)) { problems.push(file.name + ": type not allowed"); continue; }
+    if (!validPath(path)) { problems.push(file.name + ": invalid name or folder"); continue; }
+    if (file.size > MAX_FILE_BYTES) { problems.push(file.name + ": larger than 5 MB"); continue; }
+    let data; try { data = await fileToBase64(file); } catch (e) { problems.push(file.name + ": could not read"); continue; }
     const size = b64Size(data);
-
     const same = mgr.files.find((x) => !x.deleted && x.path.toLowerCase() === path.toLowerCase());
-    if (same) {
-      same.newData = data;
-      same.edited = false;
-      same.text = null;
-      same.size = size;
-    } else {
-      mgr.files.push({ path, origPath: path, size, text: null, edited: false, newData: data, isNew: true, deleted: false });
-    }
+    if (same) { same.newData = data; same.edited = false; same.text = null; same.size = size; }
+    else mgr.files.push({ path, origPath: path, size, text: null, edited: false, newData: data, isNew: true, deleted: false });
     added++;
   }
-
-  mgr.files.sort((a, b) => a.path.localeCompare(b.path));
-  renderFiles();
-  msg("mgrMsg",
-    (added ? added + " file(s) list mein judi. Live karne ke liye 'Deploy karo' dabao." : "") +
-    (problems.length ? "\nSkip: " + problems.join("; ") : ""),
-    problems.length && !added ? "error" : "status");
+  mgr.files.sort((a, b) => a.path.localeCompare(b.path)); renderFiles();
+  msg("mgrMsg", (added ? added + " file(s) added to the list. Press Deploy to go live." : "") + (problems.length ? "\nSkipped: " + problems.join("; ") : ""), problems.length && !added ? "error" : "status");
 });
 
 function buildEntries() {
@@ -1162,15 +807,10 @@ function buildEntries() {
 $("mgrDeploy").addEventListener("click", async () => {
   if (!mgr || !auth.currentUser || !me) return;
   const entries = buildEntries();
-
-  if (!entries.some((e) => e.path === "index.html")) {
-    return msg("mgrMsg", "index.html honi chahiye. Kisi file ka naam index.html (chhote akshar) rakho, warna site khulegi nahi.", "error");
-  }
-  if (!confirm("Ye changes live kar du?")) return;
-
-  const btn = $("mgrDeploy");
-  btn.disabled = true;
-  msg("mgrMsg", "Deploy ho raha hai... 10-30 second lag sakte hain", "status");
+  if (!entries.some((e) => e.path === "index.html")) return msg("mgrMsg", "index.html is required. Name one file index.html (lowercase) or the site will not open.", "error");
+  if (!confirm("Make these changes live?")) return;
+  const btn = $("mgrDeploy"); btn.disabled = true;
+  msg("mgrMsg", "Deploying... this can take 10-30 seconds", "status");
   try {
     const token = await auth.currentUser.getIdToken();
     const res = await fetch(API_URL + "/edit", {
@@ -1178,32 +818,19 @@ $("mgrDeploy").addEventListener("click", async () => {
       headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
       body: JSON.stringify({ name: mgr.slug, files: entries })
     });
-
-    let data = null;
-    try { data = await res.json(); } catch (e) {}
-
+    let data = null; try { data = await res.json(); } catch (e) {}
     if (!data || !data.success) {
-      const m = data && data.message ? data.message : "Deploy fail hua (server ne jawab nahi diya)";
-      msg("mgrMsg", m + (data && data.detail ? "\nDetail: " + data.detail : ""), "error");
+      msg("mgrMsg", (data && data.message ? data.message : "Deploy failed (no response from server)") + (data && data.detail ? "\nDetail: " + data.detail : ""), "error");
       return;
     }
-
     let saved = true;
     try { await saveRecord(data); } catch (e) { console.error(e); saved = false; }
-
     mgr.files = data.file_list.map(freshFile).sort((a, b) => a.path.localeCompare(b.path));
-    mgr.url = data.live_url;
-    renderFiles();
-    msg("mgrMsg",
-      "Changes live ho gaye! Refresh karke dekho (10-30 second lag sakte hain)." +
-      (saved ? "" : "\nPar project record save nahi hua, Firestore rules check karo."),
-      "ok");
+    mgr.url = data.live_url; renderFiles();
+    msg("mgrMsg", "Changes are live! Refresh to see them (it can take 10-30 seconds)." + (saved ? "" : "\nThe project record was not saved. Check Firestore rules."), "ok");
     loadProjects();
-  } catch (e) {
-    msg("mgrMsg", e && e.message ? e.message : "Kuch galat ho gaya", "error");
-  } finally {
-    btn.disabled = false;
-  }
+  } catch (e) { msg("mgrMsg", e && e.message ? e.message : "Something went wrong", "error"); }
+  finally { btn.disabled = false; }
 });
 </script>
 </body>
