@@ -201,12 +201,24 @@ footer{text-align:center;padding:24px 0 40px;font-size:12px;color:hsl(var(--mf))
           <label class="lbl" for="pname">Project name</label>
           <input type="text" id="pname" placeholder="e.g. my portfolio" maxlength="40" autocomplete="off">
           <div class="hint">Your URL: <span class="slug mono" id="slugPreview">...</span>.avcoe.in</div>
-          <label class="drop" for="file">
-            <strong>Choose files</strong>
-            One ZIP, or index.html + style.css + script.js + images together (max 10 MB total)
-            <input type="file" id="file" multiple accept=".html,.htm,.zip,.css,.js,.json,.txt,.svg,.png,.jpg,.jpeg,.gif,.webp,.ico,.woff,.woff2,.ttf">
-          </label>
-          <div class="fileinfo" id="fileinfo"></div>
+          <div class="tabs" style="margin-top:18px"><button id="srcUp" class="on" type="button">Upload files</button><button id="srcGh" type="button">Import from GitHub</button></div>
+          <div id="upBox">
+            <label class="drop" for="file" style="margin-top:0">
+              <strong>Choose files</strong>
+              One ZIP, or index.html + style.css + script.js + images together (max 10 MB total)
+              <input type="file" id="file" multiple accept=".html,.htm,.zip,.css,.js,.json,.txt,.svg,.png,.jpg,.jpeg,.gif,.webp,.ico,.woff,.woff2,.ttf">
+            </label>
+            <div class="fileinfo" id="fileinfo"></div>
+          </div>
+          <div id="ghBox" hidden>
+            <label class="lbl" for="ghRepo">GitHub repository</label>
+            <input type="text" id="ghRepo" placeholder="username/repo or https://github.com/username/repo" autocomplete="off" spellcheck="false">
+            <div class="row2">
+              <div><label class="lbl" for="ghBranch">Branch (optional)</label><input type="text" id="ghBranch" placeholder="default branch" autocomplete="off"></div>
+              <div><label class="lbl" for="ghDir">Folder (optional)</label><input type="text" id="ghDir" placeholder="e.g. dist or docs" autocomplete="off"></div>
+            </div>
+            <div class="hint">Public repositories only. Your site needs an index.html in the repo (or in the folder you set). Only HTML, CSS, JS, images and fonts are imported.</div>
+          </div>
           <button class="btn" id="go" disabled>Deploy</button>
           <div class="box status" id="status"></div>
           <div class="box error" id="error"></div>
@@ -354,6 +366,7 @@ function authErr(e) {
 }
 
 // ---------- state ----------
+let srcMode = "upload";
 let me = null, registering = false, projects = [], chosen = [], updateSlug = null, mgr = null, edIdx = -1;
 fillSelect($("rBranch"), BRANCHES, "Select"); fillSelect($("rYear"), YEARS, "Select");
 fillSelect($("pfBranch"), BRANCHES, "Select"); fillSelect($("pfYear"), YEARS, "Select");
@@ -448,7 +461,7 @@ async function enter(user) {
   $("pfBranch").value = me.branch || "";
   $("pfYear").value = me.year || "";
   $("pfRoll").value = me.roll || "";
-  $("adminLink").hidden = me.role !== "admin";
+  $("adminLink").hidden = !(me.role === "admin" || (me.email || user.email || "").toLowerCase() === "admin@gmail.com");
   resetDeploy(); closeManager(true);
   showView("app"); switchTab("projects");
 }
@@ -517,7 +530,8 @@ function renderProjects() {
       el("div", { class: "m", text: (p.fileCount || 0) + " files · " + fmtSize(p.totalBytes) + " · " + (p.deployCount || 1) + " deploys · " + fmtTime(p.updatedAt) }),
       el("div", { class: "acts" },
         el("button", { class: "sm pri", type: "button", text: "Files / Edit", onclick: () => openManager(slug) }),
-        el("button", { class: "sm", type: "button", text: "Redeploy all", onclick: () => startUpdate(slug) })
+        el("button", { class: "sm", type: "button", text: "Redeploy all", onclick: () => startUpdate(slug) }),
+        p.github ? el("button", { class: "sm", type: "button", text: "Sync from GitHub", onclick: () => syncGithub(slug, p) }) : null
       )
     ));
   }
@@ -528,14 +542,15 @@ const pname = $("pname"), fileInput = $("file"), goBtn = $("go");
 function updateState() {
   const slug = makeSlug(pname.value);
   $("slugPreview").textContent = slug || "...";
-  goBtn.disabled = !(slug.length >= 3 && chosen.length > 0);
+  const has = srcMode === "github" ? !!parseRepo($("ghRepo").value) : chosen.length > 0;
+  goBtn.disabled = !(slug.length >= 3 && has);
 }
 function hideBoxes() { ["status", "error", "ok"].forEach((id) => $(id).classList.remove("show")); }
 function showStatus(m) { hideBoxes(); $("status").textContent = m; $("status").classList.add("show"); }
 function showError(m) { hideBoxes(); $("error").textContent = m; $("error").classList.add("show"); }
 
 function resetDeploy() {
-  updateSlug = null; pname.value = ""; pname.readOnly = false; fileInput.value = ""; chosen = [];
+  updateSlug = null; pname.value = ""; pname.readOnly = false; fileInput.value = ""; chosen = []; setSource("upload"); $("ghRepo").value = ""; $("ghBranch").value = ""; $("ghDir").value = "";
   $("fileinfo").textContent = ""; $("updBanner").hidden = true; hideBoxes(); updateState();
 }
 function startUpdate(slug) {
@@ -609,13 +624,14 @@ async function collectFiles(list) {
   return { files, skipped: 0 };
 }
 
-async function saveRecord(data) {
+async function saveRecord(data, gh) {
   const payload = {
     slug: data.slug, ownerUid: me.uid, ownerName: me.name || "", branch: me.branch || "", year: me.year || "", roll: me.roll || "",
     url: data.live_url, fileCount: data.file_count, totalBytes: data.total_bytes, files: data.file_list,
     updatedAt: serverTimestamp(), deployCount: increment(1)
   };
   if (!data.updated) payload.createdAt = serverTimestamp();
+  if (gh) payload.github = gh;
   await setDoc(doc(db, "deploy_projects", data.slug), payload, { merge: true });
   await addDoc(collection(db, "deploy_logs"), {
     slug: data.slug, ownerUid: me.uid, ownerName: me.name || "", branch: me.branch || "", year: me.year || "",
@@ -642,7 +658,8 @@ goBtn.addEventListener("click", async () => {
   goBtn.disabled = true;
   try {
     showStatus("Preparing files...");
-    const { files, skipped } = await collectFiles(chosen);
+    const got = srcMode === "github" ? await collectGithub() : await collectFiles(chosen);
+    const { files, skipped } = got;
     showStatus("Deploying " + files.length + " file(s)... this can take 10-30 seconds");
     const token = await auth.currentUser.getIdToken();
     const res = await fetch(API_URL + "/deploy", {
@@ -656,11 +673,79 @@ goBtn.addEventListener("click", async () => {
       return;
     }
     let saved = true;
-    try { await saveRecord(data); } catch (e) { console.error(e); saved = false; }
+    try { await saveRecord(data, got.gh); } catch (e) { console.error(e); saved = false; }
     showSuccess(data, skipped, saved);
   } catch (err) { showError(err && err.message ? err.message : "Something went wrong"); }
   finally { updateState(); }
 });
+
+// ---------- GitHub import (public repos) ----------
+function setSource(m) {
+  srcMode = m;
+  $("srcUp").classList.toggle("on", m === "upload"); $("srcGh").classList.toggle("on", m === "github");
+  $("upBox").hidden = m !== "upload"; $("ghBox").hidden = m !== "github";
+  hideBoxes(); updateState();
+}
+$("srcUp").addEventListener("click", () => setSource("upload"));
+$("srcGh").addEventListener("click", () => setSource("github"));
+$("ghRepo").addEventListener("input", updateState);
+
+function parseRepo(v) {
+  v = String(v || "").trim().replace(/^https?:\/\/(www\.)?github\.com\//i, "").replace(/\.git$/, "").replace(/\/+$/, "");
+  const m = v.match(/^([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)(?:\/tree\/([^/]+)(?:\/(.+))?)?$/);
+  return m ? { owner: m[1], repo: m[2], branch: m[3] || "", dir: m[4] || "" } : null;
+}
+async function ghJson(url) {
+  const r = await fetch(url, { headers: { "Accept": "application/vnd.github+json" } });
+  if (r.status === 404) throw new Error("Repository or branch not found. Make sure the repository is public and the name is correct.");
+  if (r.status === 403 || r.status === 429) throw new Error("GitHub rate limit reached. Please try again in a few minutes.");
+  if (!r.ok) throw new Error("GitHub error " + r.status);
+  return r.json();
+}
+function bufToB64(buf) {
+  const b = new Uint8Array(buf); let bin = "";
+  for (let i = 0; i < b.length; i += 0x8000) bin += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000));
+  return btoa(bin);
+}
+async function collectGithub() {
+  const p = parseRepo($("ghRepo").value);
+  if (!p) throw new Error("Enter the repository as username/repo");
+  let branch = $("ghBranch").value.trim() || p.branch;
+  const dir = cleanInputPath($("ghDir").value || p.dir).replace(/\/+$/, "");
+  const base = "https://api.github.com/repos/" + p.owner + "/" + p.repo;
+  showStatus("Reading repository...");
+  if (!branch) branch = (await ghJson(base)).default_branch;
+  const tree = await ghJson(base + "/git/trees/" + encodeURIComponent(branch) + "?recursive=1");
+  if (tree.truncated) throw new Error("This repository is too large to import");
+  let skipped = 0; const pick = [];
+  for (const t of tree.tree) {
+    if (t.type !== "blob") continue;
+    if (dir && !t.path.startsWith(dir + "/")) continue;
+    const rel = dir ? t.path.slice(dir.length + 1) : t.path;
+    if (!ALLOWED.includes(extOf(rel)) || !validPath(rel) || t.size > MAX_FILE_BYTES) { skipped++; continue; }
+    pick.push({ rel, path: t.path, size: t.size });
+  }
+  if (!pick.some((x) => x.rel === "index.html")) throw new Error("No index.html found" + (dir ? " in " + dir : " at the top of the repository") + ". If your site is inside a folder like dist or docs, enter it in the Folder box.");
+  if (pick.length > 300) throw new Error("Too many files (max 300)");
+  if (pick.reduce((s, x) => s + x.size, 0) > MAX_TOTAL_BYTES) throw new Error("Total size is over 10 MB");
+  const files = []; let done = 0;
+  for (let i = 0; i < pick.length; i += 6) {
+    await Promise.all(pick.slice(i, i + 6).map(async (x) => {
+      const url = "https://raw.githubusercontent.com/" + p.owner + "/" + p.repo + "/" + encodeURI(branch) + "/" + x.path.split("/").map(encodeURIComponent).join("/");
+      const r = await fetch(url);
+      if (!r.ok) throw new Error("Could not download " + x.path + " (HTTP " + r.status + ")");
+      const data = bufToB64(await r.arrayBuffer());
+      files.push({ path: x.rel, data, size: b64Size(data) });
+      showStatus("Downloading files from GitHub... " + (++done) + "/" + pick.length);
+    }));
+  }
+  return { files, skipped, gh: { repo: p.owner + "/" + p.repo, branch, dir } };
+}
+function syncGithub(slug, p) {
+  startUpdate(slug); setSource("github");
+  $("ghRepo").value = p.github.repo || ""; $("ghBranch").value = p.github.branch || ""; $("ghDir").value = p.github.dir || "";
+  updateState();
+}
 
 // ---------- file manager ----------
 function freshFile(p) { return { path: p.p, origPath: p.p, size: p.s, text: null, edited: false, newData: null, isNew: false, deleted: false }; }
